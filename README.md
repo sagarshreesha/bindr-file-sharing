@@ -1,4 +1,4 @@
-# React Firebase Authentication Example
+# Bindr - Tag Based File Sharing
 
 Put your credentials to `.env`.
 
