@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import app from "../base";
 import FileUploader from "react-firebase-file-uploader";
-import file from "../file.svg";
+import file from "../verify.svg";
 import { Link } from "react-router-dom";
 import {
   ProgressBar,
@@ -129,13 +129,13 @@ const Upload = () => {
 
   const handleUploadError = (error) => {
     setisUploading(false);
-    console.error(error);
+    console.log(error);
   };
 
   const handleUploadSuccess = async (filename) => {
     const downloadURL = await app
       .storage()
-      .ref("images")
+      .ref(`${tagname}`)
       .child(filename)
       .getDownloadURL();
 
@@ -201,7 +201,7 @@ const Upload = () => {
           <FileUploader
             accept="*"
             name="image-uploader-multiple"
-            storageRef={app.storage().ref("images")}
+            storageRef={app.storage().ref(`${tagname}`)}
             onUploadStart={handleUploadStart}
             onUploadError={handleUploadError}
             onUploadSuccess={handleUploadSuccess}
@@ -227,7 +227,7 @@ const Upload = () => {
                       className="mx-auto mt-3"
                       variant="top"
                       src={file}
-                      style={{ width: "40%", justifyContent: "center" }}
+                      style={{ width: "4rem", justifyContent: "center" }}
                     />
                     <Card.Body>
                       <Card.Title className="mt-0 mb-0">

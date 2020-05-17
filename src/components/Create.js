@@ -14,6 +14,7 @@ const Create = () => {
   const [users, setUsers] = React.useState([]);
   const [show, setShow] = React.useState(false);
   const [downloadURLs, setURL] = React.useState([]);
+  const [date, setDate] = React.useState(new Date());
 
   const handleClose = () => {
     setShow(false);
@@ -29,6 +30,7 @@ const Create = () => {
       access: access,
       users: users,
       urls: downloadURLs,
+      date: date,
     });
     handleShow();
   };
