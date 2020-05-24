@@ -25,13 +25,13 @@ const Header = () => {
               Link
             </Nav.Link>
             <NavDropdown title="Menu" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/create" className="font-weight-bold">
+              <NavDropdown.Item href="./create" className="font-weight-bold">
                 Create
               </NavDropdown.Item>
-              <NavDropdown.Item href="/upload" className="font-weight-bold">
+              <NavDropdown.Item href="./upload" className="font-weight-bold">
                 Upload
               </NavDropdown.Item>
-              <NavDropdown.Item href="/manage" className="font-weight-bold">
+              <NavDropdown.Item href="./manage" className="font-weight-bold">
                 Manage
               </NavDropdown.Item>
               <NavDropdown.Divider />
