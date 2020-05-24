@@ -25,9 +25,11 @@ const Header = () => {
               Link
             </Nav.Link>
             <NavDropdown title="Menu" id="basic-nav-dropdown">
-              <NavDropdown.Item href="./create" className="font-weight-bold">
-                Create
-              </NavDropdown.Item>
+              <Link to="./" style={{ textDecoration: "none" }}>
+                <NavDropdown.Item href="./create" className="font-weight-bold">
+                  Create
+                </NavDropdown.Item>
+              </Link>
               <NavDropdown.Item href="./upload" className="font-weight-bold">
                 Upload
               </NavDropdown.Item>
