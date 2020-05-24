@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import app from "../base";
 import FileUploader from "react-firebase-file-uploader";
-import file from "../verify.svg";
+import file from "../svg/file.png";
 import { Link } from "react-router-dom";
 import {
   ProgressBar,

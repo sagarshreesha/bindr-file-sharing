@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Button, CardDeck, Card } from "react-bootstrap";
-import card2 from "../two.svg";
-import card1 from "../one.svg";
-import card3 from "../three.svg";
 import { Link, NavLink } from "react-router-dom";
+import create from "../svg/create.png";
+import upload from "../svg/upload.png";
+import manage from "../svg/manage.png";
 
 const Menu = () => {
   return (
@@ -17,7 +17,7 @@ const Menu = () => {
             <Card.Img
               className="mx-auto my-3"
               variant="top"
-              src={card1}
+              src={create}
               style={{ width: "60%", justifyContent: "center" }}
             />
             <Card.Body>
@@ -47,7 +47,7 @@ const Menu = () => {
             <Card.Img
               className="mx-auto my-2"
               variant="top"
-              src={card2}
+              src={upload}
               style={{ width: "55%", justifyContent: "center" }}
             />
             <Card.Body>
@@ -77,7 +77,7 @@ const Menu = () => {
             <Card.Img
               className="mx-auto my-1"
               variant="top"
-              src={card3}
+              src={manage}
               style={{ width: "55%", justifyContent: "center" }}
             />
             <Card.Body>
