@@ -4,12 +4,14 @@ import "firebase/auth";
 import "firebase/storage";
 
 const app = firebase.initializeApp({
-  apiKey: process.env.REACT_APP_FIREBASE_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
-  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
+  apiKey: "AIzaSyCkK9J9MXPdcTAfo0s87SllRADglZ16nP8",
+  authDomain: "files-d9315.firebaseapp.com",
+  databaseURL: "https://files-d9315.firebaseio.com",
+  projectId: "files-d9315",
+  storageBucket: "files-d9315.appspot.com",
+  messagingSenderId: "298771617646",
+  appId: "1:298771617646:web:60140a9a5af685df35937f",
+  measurementId: "G-HQT69B1VN7",
 });
 
 const storage = firebase.storage();
