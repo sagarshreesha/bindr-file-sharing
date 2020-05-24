@@ -5,7 +5,6 @@ import file from "../verify.svg";
 import { Link } from "react-router-dom";
 import {
   ProgressBar,
-  Form,
   Button,
   InputGroup,
   FormControl,
@@ -15,12 +14,14 @@ import {
   CardDeck,
   Modal,
   Spinner,
+  Fade,
 } from "react-bootstrap";
 import "../util.css";
 
 const Upload = () => {
   const [tagname, setTagName] = useState(null);
   const [filenames, setfilenames] = useState([]);
+  const [files, setfiles] = useState([]);
   const [downloadURLs, setdownloadURLs] = useState([]);
   const [isUploading, setisUploading] = useState(false);
   const [uploadProgress, setuploadProgress] = useState(0);
@@ -29,8 +30,24 @@ const Upload = () => {
   const [mones, setMones] = useState("none");
   const [shows, setShows] = useState(false);
   const [pending, setPending] = useState("none");
+  const [owner, setOwner] = useState("");
+  const [description, setDescription] = React.useState();
+  const [user, setUser] = useState("");
 
   const [shows1, setShows1] = useState(false);
+
+  React.useEffect(() => {
+    const uid = app.auth().currentUser.uid;
+    const db = app.firestore();
+    db.collection("users")
+      .where("uid", "==", uid)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          setUser(doc.data().name);
+        });
+      });
+  }, []);
 
   const handleClose = () => {
     setShows(false);
@@ -88,6 +105,28 @@ const Upload = () => {
       .catch(function (error) {
         console.log("Error getting documents: ", error);
       });
+    getOwner();
+  };
+
+  const getOwner = async () => {
+    const db = app.firestore();
+    await db
+      .collection("tags")
+      .where("name", "==", tagname)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          setDescription(doc.data().desc);
+          db.collection("users")
+            .where("uid", "==", doc.data().owner)
+            .get()
+            .then(function (querySnapshot) {
+              querySnapshot.forEach(function (doc) {
+                setOwner(doc.data().name);
+              });
+            });
+        });
+      });
   };
 
   const eCheckBase = (e) => {
@@ -118,7 +157,8 @@ const Upload = () => {
         });
     }
   };
-  const handleUploadStart = () => {
+  const handleUploadStart = (filename) => {
+    setfiles((files) => [...files, filename.name]);
     setisUploading(true);
     setuploadProgress(0);
   };
@@ -176,7 +216,18 @@ const Upload = () => {
           Oops! The tag doesn't exist
         </Alert>
         <Alert style={{ display: `${mones}` }} variant="success">
-          Looks Good. Start uploading files below.
+          <p style={{ textAlign: "left" }}>
+            <p>Looks Good. Start uploading files below.</p>
+            <p>
+              Tag Name : <b>{tagname}</b>
+            </p>
+            <p>
+              Owner: <b>{owner}</b>
+            </p>
+            <p style={{ textAlign: "" }}>
+              Description: <b>{description}</b>
+            </p>
+          </p>
         </Alert>
       </div>
       <div
@@ -206,17 +257,18 @@ const Upload = () => {
             onUploadError={handleUploadError}
             onUploadSuccess={handleUploadSuccess}
             onProgress={handleProgress}
+            filename={(file) => file.name.split(".")[0] + "-" + user}
             multiple
             style={{ display: "none" }}
           />
         </label>
 
         <p show={isUploading}>Progress: {uploadProgress}%</p>
-        <ProgressBar now={uploadProgress} />
+        <ProgressBar striped variant="success" now={uploadProgress} />
 
         <div style={{ display: "flex", marginTop: "30px" }}>
           <CardDeck>
-            {filenames.map(function (name, index) {
+            {files.map(function (name, index) {
               return (
                 <a
                   href={`${downloadURLs[index]}`}
@@ -246,6 +298,8 @@ const Upload = () => {
           size="sm"
           aria-labelledby="contained-modal-title-vcenter"
           centered
+          transition={Fade}
+          backdropTransition={Fade}
         >
           <Modal.Header>
             <Modal.Title>

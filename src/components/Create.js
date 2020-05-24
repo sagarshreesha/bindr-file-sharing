@@ -15,6 +15,7 @@ const Create = () => {
   const [show, setShow] = React.useState(false);
   const [downloadURLs, setURL] = React.useState([]);
   const [date, setDate] = React.useState(new Date());
+  const [description, setDescription] = React.useState();
 
   const handleClose = () => {
     setShow(false);
@@ -31,6 +32,8 @@ const Create = () => {
       users: users,
       urls: downloadURLs,
       date: date,
+      owner: users,
+      desc: description,
     });
     handleShow();
   };
@@ -60,6 +63,16 @@ const Create = () => {
             <option value="2">Allow when user requests</option>
           </Form.Control>
         </Form.Group>
+
+        <Form.Group controlId="formGroupDesc">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter a small description about this tag"
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Form.Group>
+
         <Button id="cusbtn" variant="primary" type="submit">
           Submit
         </Button>

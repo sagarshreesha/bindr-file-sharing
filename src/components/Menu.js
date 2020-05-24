@@ -10,7 +10,10 @@ const Menu = () => {
     <div>
       <Container className="mb-5" wdith="100%" style={{}}>
         <CardDeck>
-          <Card>
+          <Card
+            className="shadow-sm"
+            style={{ border: "none", borderRadius: "10px" }}
+          >
             <Card.Img
               className="mx-auto my-3"
               variant="top"
@@ -37,12 +40,15 @@ const Menu = () => {
               </Link>
             </Card.Footer>
           </Card>
-          <Card>
+          <Card
+            className="shadow-sm"
+            style={{ border: "none", borderRadius: "10px" }}
+          >
             <Card.Img
               className="mx-auto my-2"
               variant="top"
               src={card2}
-              style={{ width: "60%", justifyContent: "center" }}
+              style={{ width: "55%", justifyContent: "center" }}
             />
             <Card.Body>
               <Card.Title className="font-weight-bold">Upload Files</Card.Title>
@@ -64,7 +70,10 @@ const Menu = () => {
               </Link>
             </Card.Footer>
           </Card>
-          <Card>
+          <Card
+            className="shadow-sm"
+            style={{ border: "none", borderRadius: "10px" }}
+          >
             <Card.Img
               className="mx-auto my-1"
               variant="top"

@@ -4,7 +4,7 @@ body {
   font-family: "Quicksand", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(248, 248, 248) !important;
+  background-color: white !important;
   outline: none !important;
 }
 #cusbtn {
@@ -112,6 +112,18 @@ ul {
   margin-bottom: 5px;
 }
 
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(253, 255, 253, 1) !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+  color: rgb(255, 255, 255) !important;
+  background-color: #40a337;
+  border-radius: 999px;
+}
+
 .no-scrollbar {
   scrollbar-width: none;
   margin-bottom: 0;
@@ -120,6 +132,15 @@ ul {
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.shadow-sm {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5) !important;
+}
+
+.shadow-sm:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  transition: box-shadow 250ms;
 }
 
 @media (max-width: 600px) {

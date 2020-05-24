@@ -2,6 +2,10 @@
   "name": "react-firebase-auth",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.16.0",
+    "yarn": "1.17.3"
+  },
   "dependencies": {
     "bootstrap": "^4.5.0",
     "firebase": "^5.10.1",

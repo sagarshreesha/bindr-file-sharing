@@ -12,14 +12,18 @@ const Header = () => {
         variant="dark"
         className="font-weight-bold"
       >
-        <Navbar.Brand href="#home">Bindr</Navbar.Brand>
+        <Navbar.Brand href="#home" style={{ fontSize: "1.5rem" }}>
+          Tggr
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Link to="./">
+            <Link to="./" style={{ textDecoration: "none" }}>
               <Nav.Link href="#home">Home</Nav.Link>
             </Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+            <Nav.Link href="#link" style={{}}>
+              Link
+            </Nav.Link>
             <NavDropdown title="Menu" id="basic-nav-dropdown">
               <NavDropdown.Item href="/create" className="font-weight-bold">
                 Create
