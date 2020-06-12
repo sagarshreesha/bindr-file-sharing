@@ -1,4 +1,4 @@
-# Bindr - Tag Based File Sharing
+# Tggr - Tag Based File Sharing
 
 Put your credentials to `.env`.
 
