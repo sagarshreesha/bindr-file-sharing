@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import app from "../base";
-import * as firebase from "firebase/app";
-import FileUploader from "react-firebase-file-uploader";
 import file from "../svg/file.png";
 import { Link } from "react-router-dom";
 import {
-  ProgressBar,
   Button,
   InputGroup,
   FormControl,
@@ -21,7 +18,6 @@ import "../util.css";
 
 const Manage = () => {
   const [tagname, setTagName] = useState(null);
-  const [filenames, setfilenames] = useState([]);
   const [files, setfiles] = useState([]);
   const [downloadURLs, setdownloadURLs] = useState([]);
   const [show, setShow] = useState("none");
@@ -31,23 +27,9 @@ const Manage = () => {
   const [pending, setPending] = useState("none");
   const [owner, setOwner] = useState("");
   const [description, setDescription] = React.useState();
-  const [user, setUser] = useState("");
   const [empty, setEmpty] = useState("none");
 
   const [shows1, setShows1] = useState(false);
-
-  React.useEffect(() => {
-    const uid = app.auth().currentUser.uid;
-    const db = app.firestore();
-    db.collection("users")
-      .where("uid", "==", uid)
-      .get()
-      .then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          setUser(doc.data().name);
-        });
-      });
-  }, []);
 
   React.useEffect(() => {
     const uid = app.auth().currentUser.uid;
@@ -79,31 +61,9 @@ const Manage = () => {
     setShows(false);
     setShows1(false);
   };
-  const handleShow = () => setShows(true);
 
   const handleChange = (e) => {
     setTagName(e.target.value);
-  };
-
-  const finaliseStuff = () => {
-    if (filenames.length === 0) {
-      console.log("000");
-      setShows1(true);
-    } else {
-      const db = app.firestore();
-      db.collection("tags")
-        .where("name", "==", tagname)
-        .get()
-        .then(function (querySnapshot) {
-          querySnapshot.forEach(function (doc) {
-            db.collection("tags").doc(doc.id).update({
-              filenames: filenames,
-              urls: downloadURLs,
-            });
-          });
-        });
-      handleShow();
-    }
   };
 
   const checkBase = () => {
@@ -276,7 +236,9 @@ const Manage = () => {
             {mytags.map(function (name, index) {
               return (
                 <li key={index} class="item">
-                  <a onClick={() => myClick(name)}>{name}</a>
+                  <a href="." onClick={() => myClick(name)}>
+                    {name}
+                  </a>
                 </li>
               );
             })}
@@ -340,6 +302,7 @@ const Manage = () => {
             {files.map(function (name, index) {
               return (
                 <a
+                  href="."
                   style={{ textDecoration: "none", color: "black" }}
                   key={index}
                 >

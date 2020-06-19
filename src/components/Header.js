@@ -1,10 +1,8 @@
 import React from "react";
 import app from "../base";
-import { Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Navbar, Nav, Image } from "react-bootstrap";
 
 const Header = () => {
-  const handleSelect = (eventKey) => {};
   return (
     <div>
       <Navbar
