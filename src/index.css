@@ -151,6 +151,10 @@ ul {
   margin: auto !important;
 }
 
+.tagbtn:focus {
+  outline: none !important;
+}
+
 @media (max-width: 600px) {
   #formid {
     width: 100% !important;

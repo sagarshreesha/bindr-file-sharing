@@ -231,9 +231,21 @@ const Manage = () => {
             {mytags.map(function (name, index) {
               return (
                 <li key={index} class="item">
-                  <a href="." onClick={() => myClick(name)}>
+                  <Button
+                    onClick={() => myClick(name)}
+                    style={{
+                      backgroundColor: "white",
+                      color: "black",
+                      outline: "none",
+                      border: "none",
+                      fontWeight: "bold",
+                      width: "100%",
+                      borderRadius: "999px",
+                    }}
+                    className="tagbtn"
+                  >
                     {name}
-                  </a>
+                  </Button>
                 </li>
               );
             })}
