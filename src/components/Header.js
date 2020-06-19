@@ -1,26 +1,37 @@
 import React from "react";
 import app from "../base";
-import { Navbar, Nav, Image } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 
 const Header = () => {
   return (
     <div>
       <Navbar
-        style={{ backgroundColor: "#54D249" }}
+        style={{ backgroundColor: "#54D249", color: "#121212" }}
         expand="lg"
         variant="dark"
         className="font-weight-bold mb-5"
       >
-        <Navbar.Brand href="#home" style={{ fontSize: "1.5rem" }}>
+        <Navbar.Brand
+          href="./"
+          style={{ fontSize: "1.5rem", color: "#121212", fontWeight: "bold" }}
+        >
           Tggr
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/create">Create</Nav.Link>
-            <Nav.Link href="/upload">Upload</Nav.Link>
-            <Nav.Link href="/manage">Manage</Nav.Link>
+            <Nav.Link href="/" style={{ color: "#121212" }}>
+              Home
+            </Nav.Link>
+            <Nav.Link href="/create" style={{ color: "#121212" }}>
+              Create
+            </Nav.Link>
+            <Nav.Link href="/upload" style={{ color: "#121212" }}>
+              Upload
+            </Nav.Link>
+            <Nav.Link href="/manage" style={{ color: "#121212" }}>
+              Manage
+            </Nav.Link>
             <Nav.Link
               onClick={() => {
                 app.auth().signOut();
@@ -29,11 +40,6 @@ const Header = () => {
               Sign Out
             </Nav.Link>
           </Nav>
-          <Image
-            src="https://cdn2.vectorstock.com/i/1000x1000/23/81/default-avatar-profile-icon-vector-18942381.jpg"
-            roundedCircle
-            width="40px"
-          />
         </Navbar.Collapse>
       </Navbar>
     </div>
