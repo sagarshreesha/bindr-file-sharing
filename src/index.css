@@ -4,7 +4,7 @@ body {
   font-family: "Quicksand", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: white !important;
+  background-color: #121212 !important;
   outline: none !important;
 }
 #cusbtn {

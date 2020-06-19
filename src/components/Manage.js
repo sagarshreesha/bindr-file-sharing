@@ -308,28 +308,22 @@ const Manage = () => {
           <CardDeck>
             {files.map(function (name, index) {
               return (
-                <a
-                  href="."
-                  style={{ textDecoration: "none", color: "black" }}
-                  key={index}
+                <Card
+                  style={{ width: "10rem" }}
+                  onClick={() => window.open(`${downloadURLs[index]}`)}
                 >
-                  <Card
-                    style={{ width: "10rem" }}
-                    onClick={() => window.open(`${downloadURLs[index]}`)}
-                  >
-                    <Card.Img
-                      className="mx-auto mt-3"
-                      variant="top"
-                      src={file}
-                      style={{ width: "4rem", justifyContent: "center" }}
-                    />
-                    <Card.Body>
-                      <Card.Title className="mt-0 mb-0">
-                        <b style={{ fontSize: "15px" }}>{name}</b>
-                      </Card.Title>
-                    </Card.Body>
-                  </Card>
-                </a>
+                  <Card.Img
+                    className="mx-auto mt-3"
+                    variant="top"
+                    src={file}
+                    style={{ width: "4rem", justifyContent: "center" }}
+                  />
+                  <Card.Body>
+                    <Card.Title className="mt-0 mb-0">
+                      <b style={{ fontSize: "15px" }}>{name}</b>
+                    </Card.Title>
+                  </Card.Body>
+                </Card>
               );
             })}
           </CardDeck>

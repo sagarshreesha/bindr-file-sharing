@@ -36,10 +36,26 @@ const Login = ({ history }) => {
         alignContent: "center",
         justifyContent: "center",
         verticalAlign: "middle",
+        padding: "20px",
+        marginTop: "10vh",
       }}
     >
-      <h2 className="head-login mx-auto">Login</h2>
-      <div className="login mx-auto">
+      <center>
+        <h2
+          className="head-login mb-5"
+          style={{ fontWeight: "bold", color: "#5dea51" }}
+        >
+          Login
+        </h2>
+      </center>
+      <div
+        className="login mx-auto"
+        style={{
+          border: "2px solid #363636",
+          padding: "30px",
+          borderRadius: "20px",
+        }}
+      >
         {/*<h1>Log in</h1>
       <form onSubmit={handleLogin}>
         <label>
@@ -54,27 +70,65 @@ const Login = ({ history }) => {
       </form>*/}
         <Form onSubmit={handleLogin}>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" name="email" placeholder="Enter email" />
+            <Form.Label
+              style={{ color: "#929493", fontWeight: "bold", fontSize: "18px" }}
+            >
+              Email address
+            </Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              style={{
+                backgroundColor: "#363636",
+                border: "none",
+                color: "white",
+                outline: "none",
+                fontWeight: "bold",
+              }}
+            />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+            <Form.Label
+              style={{ color: "#929493", fontWeight: "bold", fontSize: "18px" }}
+            >
+              Password
+            </Form.Label>
             <Form.Control
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder="Enter your password"
+              style={{
+                backgroundColor: "#363636",
+                border: "none",
+                color: "white",
+                outline: "none",
+                fontWeight: "bold",
+              }}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+
+          <center>
+            <Button
+              variant="primary"
+              type="submit"
+              className="mt-3"
+              style={{
+                backgroundColor: "#5dea51",
+                padding: "8px 20px 8px 20px",
+                fontWeight: "bold",
+                color: "black",
+                border: "none",
+                fontSize: "17px",
+              }}
+            >
+              Login
+            </Button>
+          </center>
         </Form>
       </div>
     </div>

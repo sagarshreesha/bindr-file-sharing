@@ -10,6 +10,7 @@
     "react-dom": "^16.8.6",
     "react-file-icon": "^0.2.0",
     "react-firebase-file-uploader": "^2.4.3",
+    "react-hook-form": "^5.7.2",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.0.1"

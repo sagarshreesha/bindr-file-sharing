@@ -167,13 +167,22 @@ const Upload = () => {
 
   return (
     <div>
-      <div>
-        <FormLabel>
+      <div sty>
+        <FormLabel
+          style={{ color: "#929493", fontWeight: "bold", fontSize: "18px" }}
+        >
           <b>Tag Name</b>
         </FormLabel>
         <InputGroup className="mb-3">
           <FormControl
-            style={{ height: "40px" }}
+            style={{
+              height: "40px",
+              backgroundColor: "#363636",
+              border: "none",
+              color: "white",
+              outline: "none",
+              fontWeight: "bold",
+            }}
             placeholder="Tag Name"
             aria-label="Tag Name"
             aria-describedby="basic-addon2"
@@ -181,7 +190,11 @@ const Upload = () => {
             onKeyPress={eCheckBase}
           />
           <InputGroup.Append>
-            <Button style={{ outline: "none" }} id="cusbtn" onClick={checkBase}>
+            <Button
+              style={{ color: "#121212", fontWeight: "bold" }}
+              id="cusbtn"
+              onClick={checkBase}
+            >
               <b>Check</b>
             </Button>
           </InputGroup.Append>
@@ -192,20 +205,34 @@ const Upload = () => {
           variant="success"
           className="mx-auto my-3"
         />
-        <Alert style={{ display: `${nones}` }} variant="danger">
+        <Alert
+          style={{
+            display: `${nones}`,
+            backgroundColor: "#4d1a1a",
+            color: "white",
+          }}
+        >
           Oops! The tag doesn't exist
         </Alert>
-        <Alert style={{ display: `${mones}` }} variant="success">
+        <Alert
+          style={{
+            display: `${mones}`,
+            backgroundColor: "#163813",
+            color: "white",
+          }}
+        >
           <p style={{ textAlign: "left" }}>
-            <p>Looks Good. Start uploading files below.</p>
-            <p>
-              Tag Name : <b>{tagname}</b>
+            <p style={{ fontWeight: "bold", color: "#abffb2" }}>
+              Looks Good. Start uploading files below.
             </p>
             <p>
-              Owner: <b>{owner}</b>
+              Tag Name : <b style={{ color: "#abffb2" }}>{tagname}</b>
+            </p>
+            <p>
+              Owner: <b style={{ color: "#abffb2" }}>{owner}</b>
             </p>
             <p style={{ textAlign: "" }}>
-              Description: <b>{description}</b>
+              Description: <b style={{ color: "#abffb2" }}>{description}</b>
             </p>
           </p>
         </Alert>
@@ -221,7 +248,7 @@ const Upload = () => {
         <label
           style={{
             backgroundColor: "#5dea51",
-            color: "white",
+            color: "#121212",
             padding: 10,
             borderRadius: 4,
             cursor: "pointer",
@@ -243,10 +270,23 @@ const Upload = () => {
           />
         </label>
 
-        <p show={isUploading}>Progress: {uploadProgress}%</p>
-        <ProgressBar striped variant="success" now={uploadProgress} />
+        <p
+          show={isUploading}
+          style={{ color: "#b2d1c1", fontWeight: "bold", fontSize: "18px" }}
+          className="my-3 mb-4"
+        >
+          Progress: {uploadProgress}%
+        </p>
+        <ProgressBar
+          striped
+          variant="success"
+          now={uploadProgress}
+          style={{ backgroundColor: "#363636" }}
+        />
 
-        <div style={{ display: "flex", marginTop: "30px" }}>
+        <div
+          style={{ display: "flex", marginTop: "30px", flexDirection: "right" }}
+        >
           <CardDeck>
             {files.map(function (name, index) {
               return (
@@ -254,7 +294,7 @@ const Upload = () => {
                   href={`${downloadURLs[index]}`}
                   style={{ textDecoration: "none", color: "black" }}
                 >
-                  <Card style={{ width: "10rem" }}>
+                  <Card style={{ backgroundColor: "#363636", width: "10rem" }}>
                     <Card.Img
                       className="mx-auto mt-3"
                       variant="top"
@@ -262,7 +302,10 @@ const Upload = () => {
                       style={{ width: "4rem", justifyContent: "center" }}
                     />
                     <Card.Body>
-                      <Card.Title className="mt-0 mb-0">
+                      <Card.Title
+                        className="mt-0 mb-0"
+                        style={{ color: "#b2d1c1", fontSize: "16px" }}
+                      >
                         <b>{name}</b>
                       </Card.Title>
                     </Card.Body>
@@ -329,6 +372,7 @@ const Upload = () => {
           variant="primary"
           id="cusbtn"
           onClick={finaliseStuff}
+          style={{ color: "#121212", fontWeight: "bold" }}
         >
           Finalise
         </Button>
