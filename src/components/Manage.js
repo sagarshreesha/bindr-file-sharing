@@ -33,15 +33,12 @@ const Manage = () => {
 
   React.useEffect(() => {
     const uid = app.auth().currentUser.uid;
-    setUid(uid);
     const db = app.firestore();
     db.collection("users")
       .where("uid", "==", uid)
       .get()
       .then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          setUserName(doc.data().name);
-        });
+        querySnapshot.forEach(function (doc) {});
       });
     db.collection("tags")
       .where("owner", "==", uid)
@@ -54,8 +51,6 @@ const Manage = () => {
   }, []);
 
   const [mytags, setMyTags] = useState([]);
-  const [username, setUserName] = useState("");
-  const [uid, setUid] = useState("");
 
   const handleClose = () => {
     setShows(false);
