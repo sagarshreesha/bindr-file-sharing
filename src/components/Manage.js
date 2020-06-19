@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import app from "../base";
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
 import FileUploader from "react-firebase-file-uploader";
 import file from "../svg/file.png";
 import { Link } from "react-router-dom";
@@ -19,13 +19,11 @@ import {
 } from "react-bootstrap";
 import "../util.css";
 
-const Upload = () => {
+const Manage = () => {
   const [tagname, setTagName] = useState(null);
   const [filenames, setfilenames] = useState([]);
   const [files, setfiles] = useState([]);
   const [downloadURLs, setdownloadURLs] = useState([]);
-  const [isUploading, setisUploading] = useState(false);
-  const [uploadProgress, setuploadProgress] = useState(0);
   const [show, setShow] = useState("none");
   const [nones, setNones] = useState("none");
   const [mones, setMones] = useState("none");
@@ -34,6 +32,7 @@ const Upload = () => {
   const [owner, setOwner] = useState("");
   const [description, setDescription] = React.useState();
   const [user, setUser] = useState("");
+  const [empty, setEmpty] = useState("none");
 
   const [shows1, setShows1] = useState(false);
 
@@ -49,6 +48,32 @@ const Upload = () => {
         });
       });
   }, []);
+
+  React.useEffect(() => {
+    const uid = app.auth().currentUser.uid;
+    setUid(uid);
+    const db = app.firestore();
+    db.collection("users")
+      .where("uid", "==", uid)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          setUserName(doc.data().name);
+        });
+      });
+    db.collection("tags")
+      .where("owner", "==", uid)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          setMyTags((mytags) => [...mytags, doc.data().name]);
+        });
+      });
+  }, []);
+
+  const [mytags, setMyTags] = useState([]);
+  const [username, setUserName] = useState("");
+  const [uid, setUid] = useState("");
 
   const handleClose = () => {
     setShows(false);
@@ -71,12 +96,10 @@ const Upload = () => {
         .get()
         .then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {
-            db.collection("tags")
-              .doc(doc.id)
-              .update({
-                filenames: firebase.firestore.FieldValue.arrayUnion(filenames),
-                urls: firebase.firestore.FieldValue.arrayUnion(downloadURLs),
-              });
+            db.collection("tags").doc(doc.id).update({
+              filenames: filenames,
+              urls: downloadURLs,
+            });
           });
         });
       handleShow();
@@ -84,6 +107,7 @@ const Upload = () => {
   };
 
   const checkBase = () => {
+    setEmpty("none");
     setNones("none");
     setMones("none");
     setShow("none");
@@ -111,10 +135,9 @@ const Upload = () => {
     getOwner();
   };
 
-  const getOwner = async () => {
+  const getOwner = () => {
     const db = app.firestore();
-    await db
-      .collection("tags")
+    db.collection("tags")
       .where("name", "==", tagname)
       .get()
       .then(function (querySnapshot) {
@@ -130,6 +153,35 @@ const Upload = () => {
             });
         });
       });
+
+    getFiles();
+  };
+
+  const getFiles = () => {
+    setfiles([]);
+    setdownloadURLs([]);
+    app
+      .storage()
+      .ref(`${tagname}`)
+      .listAll()
+      .then(function (result) {
+        if (!result.items[0]) setEmpty("block");
+        result.items.forEach(function (imageRef) {
+          console.log(imageRef);
+
+          app
+            .storage()
+            .ref(imageRef.fullPath)
+            .getDownloadURL()
+            .then(function (url) {
+              setdownloadURLs((downloadURLs) => [...downloadURLs, url]);
+              setfiles((files) => [...files, imageRef.name]);
+            });
+        });
+      })
+      .catch(function (error) {
+        // Handle any errors
+      });
   };
 
   const eCheckBase = (e) => {
@@ -137,36 +189,100 @@ const Upload = () => {
       checkBase();
     }
   };
-  const handleUploadStart = (filename) => {
-    setfiles((files) => [...files, filename.name]);
-    setisUploading(true);
-    setuploadProgress(0);
-  };
 
-  const handleProgress = (progress) => {
-    setuploadProgress(progress);
-  };
+  const myClick = (name) => {
+    setEmpty("none");
+    setTagName(name);
+    setNones("none");
+    setMones("none");
+    setShow("none");
+    setPending("block");
+    app
+      .firestore()
+      .collection("tags")
+      .where("name", "==", name)
+      .get()
+      .then(function (querySnapshot) {
+        setPending("none");
+        if (!querySnapshot.empty) {
+          setMones("block");
+          setNones("none");
+          setShow("block");
+        } else {
+          setNones("block");
+          setMones("none");
+          setShow("none");
+        }
+      })
+      .catch(function (error) {
+        console.log("Error getting documents: ", error);
+      });
 
-  const handleUploadError = (error) => {
-    setisUploading(false);
-    console.log(error);
-  };
+    const db = app.firestore();
+    db.collection("tags")
+      .where("name", "==", name)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          setDescription(doc.data().desc);
+          db.collection("users")
+            .where("uid", "==", doc.data().owner)
+            .get()
+            .then(function (querySnapshot) {
+              querySnapshot.forEach(function (doc) {
+                setOwner(doc.data().name);
+              });
+            });
+        });
+      });
 
-  const handleUploadSuccess = async (filename) => {
-    const downloadURL = await app
+    setfiles([]);
+    setdownloadURLs([]);
+    app
       .storage()
-      .ref(`${tagname}`)
-      .child(filename)
-      .getDownloadURL();
+      .ref(`${name}`)
+      .listAll()
+      .then(function (result) {
+        if (!result.items[0]) setEmpty("block");
+        result.items.forEach(function (imageRef) {
+          console.log(imageRef);
 
-    setfilenames((filenames) => [...filenames, filename]);
-    setdownloadURLs((downloadURLs) => [...downloadURLs, downloadURL]);
-    setuploadProgress(100);
-    setisUploading(false);
+          app
+            .storage()
+            .ref(imageRef.fullPath)
+            .getDownloadURL()
+            .then(function (url) {
+              setdownloadURLs((downloadURLs) => [...downloadURLs, url]);
+              setfiles((files) => [...files, imageRef.name]);
+            });
+        });
+      })
+      .catch(function (error) {
+        // Handle any errors
+      });
   };
 
   return (
     <div>
+      <div>
+        <div className="my-tags mt-5 w-100">
+          <ul class="hs full no-scrollbar font-weight-bold">
+            <p
+              class="recent mb-2"
+              style={{ fontWeight: "bold", fontSize: "18px" }}
+            >
+              My Tags
+            </p>
+            {mytags.map(function (name, index) {
+              return (
+                <li key={index} class="item">
+                  <a onClick={() => myClick(name)}>{name}</a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
       <div>
         <FormLabel>
           <b>Tag Name</b>
@@ -218,43 +334,19 @@ const Upload = () => {
           borderRadius: "10px",
         }}
       >
-        <label
-          style={{
-            backgroundColor: "#5dea51",
-            color: "white",
-            padding: 10,
-            borderRadius: 4,
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          Choose Files
-          <FileUploader
-            accept="*"
-            name="image-uploader-multiple"
-            storageRef={app.storage().ref(`${tagname}`)}
-            onUploadStart={handleUploadStart}
-            onUploadError={handleUploadError}
-            onUploadSuccess={handleUploadSuccess}
-            onProgress={handleProgress}
-            filename={(file) => file.name.split(".")[0] + "-" + user}
-            multiple
-            style={{ display: "none" }}
-          />
-        </label>
-
-        <p show={isUploading}>Progress: {uploadProgress}%</p>
-        <ProgressBar striped variant="success" now={uploadProgress} />
-
-        <div style={{ display: "flex", marginTop: "30px" }}>
+        <div style={{ marginTop: "30px" }}>
+          <h2 style={{ display: `${empty}` }}>No Files!</h2>
           <CardDeck>
             {files.map(function (name, index) {
               return (
                 <a
-                  href={`${downloadURLs[index]}`}
                   style={{ textDecoration: "none", color: "black" }}
+                  key={index}
                 >
-                  <Card style={{ width: "10rem" }}>
+                  <Card
+                    style={{ width: "10rem" }}
+                    onClick={() => window.open(`${downloadURLs[index]}`)}
+                  >
                     <Card.Img
                       className="mx-auto mt-3"
                       variant="top"
@@ -263,7 +355,7 @@ const Upload = () => {
                     />
                     <Card.Body>
                       <Card.Title className="mt-0 mb-0">
-                        <b>{name}</b>
+                        <b style={{ fontSize: "15px" }}>{name}</b>
                       </Card.Title>
                     </Card.Body>
                   </Card>
@@ -324,14 +416,6 @@ const Upload = () => {
           </Modal.Footer>
         </Modal>
 
-        <Button
-          className="mt-3"
-          variant="primary"
-          id="cusbtn"
-          onClick={finaliseStuff}
-        >
-          Finalise
-        </Button>
         {/*<div>
         {downloadURLs.map((downloadURL, i) => {
           return <img key={i} src={downloadURL} alt="" />;
@@ -342,4 +426,4 @@ const Upload = () => {
   );
 };
 
-export default Upload;
+export default Manage;

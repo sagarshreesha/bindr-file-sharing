@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Button, CardDeck, Card } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import create from "../svg/create.png";
 import upload from "../svg/upload.png";
 import manage from "../svg/manage.png";
@@ -8,7 +8,7 @@ import manage from "../svg/manage.png";
 const Menu = () => {
   return (
     <div>
-      <Container className="mb-5" wdith="100%" style={{}}>
+      <Container className="mb-5" wdith="100%">
         <CardDeck>
           <Card
             className="shadow-sm"
@@ -88,13 +88,15 @@ const Menu = () => {
               </Card.Text>
             </Card.Body>
             <Card.Footer style={{ backgroundColor: "white" }}>
-              <Button
-                id="cusbtn"
-                className="font-weight-bold"
-                variant="primary"
-              >
-                Manage Tags
-              </Button>
+              <Link to="./manage">
+                <Button
+                  id="cusbtn"
+                  className="font-weight-bold"
+                  variant="primary"
+                >
+                  Manage Tags
+                </Button>
+              </Link>
             </Card.Footer>
           </Card>
         </CardDeck>

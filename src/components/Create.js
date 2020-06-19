@@ -9,12 +9,12 @@ const Create = () => {
   }, []);
 
   const [tagname, setTagName] = React.useState(null);
-  const [filename, setFilenames] = React.useState([]);
+  const [filename] = React.useState([]);
   const [access, setAccess] = React.useState(1);
   const [users, setUsers] = React.useState([]);
   const [show, setShow] = React.useState(false);
-  const [downloadURLs, setURL] = React.useState([]);
-  const [date, setDate] = React.useState(new Date());
+  const [downloadURLs] = React.useState([]);
+  const [date] = React.useState(new Date());
   const [description, setDescription] = React.useState();
 
   const handleClose = () => {
@@ -49,7 +49,7 @@ const Create = () => {
             onChange={(e) => setTagName(e.target.value)}
           />
           <a
-            href="#"
+            href="./"
             class="badge badge-primary p-2 mt-2 mx-auto"
             style={{ backgroundColor: "#54D249" }}
           >

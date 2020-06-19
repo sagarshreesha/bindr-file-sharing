@@ -1,16 +1,17 @@
 import React from "react";
 import app from "../base";
-import { Navbar, Form, Nav, NavDropdown, Button, Image } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const handleSelect = (eventKey) => {};
   return (
     <div>
       <Navbar
         style={{ backgroundColor: "#54D249" }}
         expand="lg"
         variant="dark"
-        className="font-weight-bold"
+        className="font-weight-bold mb-5"
       >
         <Navbar.Brand href="#home" style={{ fontSize: "1.5rem" }}>
           Tggr
@@ -18,29 +19,10 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Link to="./" style={{ textDecoration: "none" }}>
-              <Nav.Link href="#home">Home</Nav.Link>
-            </Link>
-            <Nav.Link href="#link" style={{}}>
-              Link
-            </Nav.Link>
-            <NavDropdown title="Menu" id="basic-nav-dropdown">
-              <Link to="./create" style={{ textDecoration: "none" }}>
-                <NavDropdown.Item href="./create" className="font-weight-bold">
-                  Create
-                </NavDropdown.Item>
-              </Link>
-              <NavDropdown.Item href="./upload" className="font-weight-bold">
-                Upload
-              </NavDropdown.Item>
-              <NavDropdown.Item href="./manage" className="font-weight-bold">
-                Manage
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4" className="font-weight-bold">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/create">Create</Nav.Link>
+            <Nav.Link href="/upload">Upload</Nav.Link>
+            <Nav.Link href="/manage">Manage</Nav.Link>
             <Nav.Link
               onClick={() => {
                 app.auth().signOut();

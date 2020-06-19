@@ -29,15 +29,17 @@ const Login = ({ history }) => {
 
   return (
     <div
-      className="mx-auto my-auto"
+      className="mx-auto"
       style={{
-        display: "flex",
+        maxWidth: "700px",
+        display: "block",
         alignContent: "center",
         justifyContent: "center",
         verticalAlign: "middle",
       }}
     >
-      <div className="w-25">
+      <h2 className="head-login mx-auto">Login</h2>
+      <div className="login mx-auto">
         {/*<h1>Log in</h1>
       <form onSubmit={handleLogin}>
         <label>

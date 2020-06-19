@@ -14,5 +14,4 @@ const app = firebase.initializeApp({
   measurementId: "G-HQT69B1VN7",
 });
 
-const storage = firebase.storage();
 export default app;

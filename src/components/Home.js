@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import app from "../base";
+import React from "react";
 import Header from "./Header";
 import Menu from "./Menu";
 import Upload from "./Upload";
-import PrivateRoute from "../PrivateRoute";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import Manage from "./Manage";
+import { Route } from "react-router-dom";
 import Create from "./Create";
 
 const Home = () => {
@@ -12,9 +11,7 @@ const Home = () => {
     <div>
       <Header />
       <main role="main" className="container">
-        <div className="starter-template mt-5">
-          <div class="app">
-            <ul class="hs full no-scrollbar font-weight-bold">
+        {/*<ul class="hs full no-scrollbar font-weight-bold">
               <p
                 class="recent mb-2"
                 style={{ fontWeight: "bold", fontSize: "18px" }}
@@ -29,12 +26,13 @@ const Home = () => {
               <li class="item">test</li>
               <li class="item">test</li>
               <li class="item">test</li>
-            </ul>
-          </div>
-          <Route exact path="/" component={Menu} />
-        </div>
+  </ul>*/}
+
+        <Route exact path="/" component={Menu} />
+
         <Route exact path="/upload" component={Upload} />
         <Route exact path="/create" component={Create} />
+        <Route exact path="/manage" component={Manage} />
       </main>{" "}
     </div>
   );
