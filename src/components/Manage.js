@@ -15,8 +15,6 @@ import {
   Fade,
 } from "react-bootstrap";
 import "../util.css";
-import Home from "./Home";
-import PrivateRoute from "../PrivateRoute";
 
 const Manage = () => {
   const [tagname, setTagName] = useState(null);
@@ -221,9 +219,6 @@ const Manage = () => {
 
   return (
     <div>
-      <PrivateRoute path="/create" component={Home} />
-      <PrivateRoute exact path="/upload" component={Home} />
-      <PrivateRoute exact path="/manage" component={Home} />
       <div>
         <div className="my-tags mt-5 w-100">
           <ul class="hs full no-scrollbar font-weight-bold">

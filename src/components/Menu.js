@@ -4,15 +4,10 @@ import { Link } from "react-router-dom";
 import create from "../svg/create.png";
 import upload from "../svg/upload.png";
 import manage from "../svg/manage.png";
-import Home from "./Home";
-import PrivateRoute from "../PrivateRoute";
 
 const Menu = () => {
   return (
     <div>
-      <PrivateRoute path="/create" component={Home} />
-      <PrivateRoute exact path="/upload" component={Home} />
-      <PrivateRoute exact path="/manage" component={Home} />
       <Container className="mb-5" wdith="100%">
         <CardDeck>
           <Card
