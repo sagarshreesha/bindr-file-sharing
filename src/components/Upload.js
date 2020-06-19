@@ -18,6 +18,8 @@ import {
   Fade,
 } from "react-bootstrap";
 import "../util.css";
+import Home from "./Home";
+import PrivateRoute from "../PrivateRoute";
 
 const Upload = () => {
   const [tagname, setTagName] = useState(null);
@@ -167,6 +169,9 @@ const Upload = () => {
 
   return (
     <div>
+      <PrivateRoute path="/create" component={Home} />
+      <PrivateRoute exact path="/upload" component={Home} />
+      <PrivateRoute exact path="/manage" component={Home} />
       <div>
         <FormLabel>
           <b>Tag Name</b>

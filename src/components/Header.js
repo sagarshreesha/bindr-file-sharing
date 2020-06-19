@@ -1,10 +1,15 @@
 import React from "react";
 import app from "../base";
 import { Navbar, Nav, Image } from "react-bootstrap";
+import Home from "./Home";
+import PrivateRoute from "../PrivateRoute";
 
 const Header = () => {
   return (
     <div>
+      <PrivateRoute path="/create" component={Home} />
+      <PrivateRoute exact path="/upload" component={Home} />
+      <PrivateRoute exact path="/manage" component={Home} />
       <Navbar
         style={{ backgroundColor: "#54D249" }}
         expand="lg"

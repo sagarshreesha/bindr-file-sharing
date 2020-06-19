@@ -2,6 +2,8 @@ import React from "react";
 import app from "../base";
 import { Form, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Home from "./Home";
+import PrivateRoute from "../PrivateRoute";
 
 const Create = () => {
   React.useEffect(() => {
@@ -40,6 +42,9 @@ const Create = () => {
 
   return (
     <div id="formid" className="w-50 mx-auto">
+      <PrivateRoute path="/create" component={Home} />
+      <PrivateRoute exact path="/upload" component={Home} />
+      <PrivateRoute exact path="/manage" component={Home} />
       <Form className="font-weight-bold" onSubmit={onCreate}>
         <Form.Group controlId="formGroupEmail">
           <Form.Label>Tag Name</Form.Label>
