@@ -55,6 +55,7 @@ const Login = ({ history }) => {
           border: "2px solid #363636",
           padding: "30px",
           borderRadius: "20px",
+          marginTop: "5vh",
         }}
       >
         <Form onSubmit={handleLogin}>

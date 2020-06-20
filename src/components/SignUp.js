@@ -53,6 +53,7 @@ const SignUp = ({ history }) => {
           border: "2px solid #363636",
           padding: "30px",
           borderRadius: "20px",
+          marginTop: "5vh",
         }}
       >
         <Form onSubmit={handleSignUp}>
@@ -119,7 +120,19 @@ const SignUp = ({ history }) => {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button
+            style={{
+              backgroundColor: "#5dea51",
+              padding: "8px 20px 8px 20px",
+              fontWeight: "bold",
+              color: "#121212",
+              border: "none",
+              fontSize: "17px",
+              cursor: "pointer",
+            }}
+            variant="primary"
+            type="submit"
+          >
             Submit
           </Button>
         </Form>
