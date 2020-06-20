@@ -328,19 +328,42 @@ const Upload = () => {
           transition={Fade}
           backdropTransition={Fade}
         >
-          <Modal.Header>
+          <Modal.Header
+            style={{
+              backgroundColor: "#363535",
+              color: "#54ff57",
+              border: "none",
+            }}
+          >
             <Modal.Title>
               <b>Files Uploaded!</b>
             </Modal.Title>
           </Modal.Header>
 
-          <Modal.Body>
+          <Modal.Body
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
             Your files have been uploaded. The owner can now view your files.
           </Modal.Body>
 
-          <Modal.Footer>
+          <Modal.Footer
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
             <Link to="./">
-              <Button id="cusbtn" variant="secondary" onClick={handleClose}>
+              <Button
+                id="cusbtn"
+                variant="secondary"
+                onClick={handleClose}
+                style={{ color: "#121212", fontWeight: "bold" }}
+              >
                 Go Home
               </Button>
             </Link>
@@ -354,18 +377,41 @@ const Upload = () => {
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
-          <Modal.Header>
+          <Modal.Header
+            style={{
+              backgroundColor: "#363535",
+              color: "#ff3b3b",
+              border: "none",
+            }}
+          >
             <Modal.Title>
               <b>No Files :(</b>
             </Modal.Title>
           </Modal.Header>
 
-          <Modal.Body>
+          <Modal.Body
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
             Please add some files by clicking on "Choose Files"
           </Modal.Body>
 
-          <Modal.Footer>
-            <Button id="cusbtn" variant="secondary" onClick={handleClose}>
+          <Modal.Footer
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
+            <Button
+              id="cusbtn"
+              variant="secondary"
+              onClick={handleClose}
+              style={{ color: "#121212", fontWeight: "bold" }}
+            >
               Close
             </Button>
           </Modal.Footer>
