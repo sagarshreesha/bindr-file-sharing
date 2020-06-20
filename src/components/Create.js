@@ -34,7 +34,6 @@ const Create = () => {
         console.log("Error getting documents: ", error);
       });
   };
-  console.log(errors);
 
   React.useEffect(() => {
     setUsers(app.auth().currentUser.uid);
@@ -99,7 +98,7 @@ const Create = () => {
           </p>
           <a
             href="./"
-            class="badge badge-primary p-2 mt-2 mx-auto"
+            className="badge badge-primary p-2 mt-2 mx-auto"
             style={{
               backgroundColor: "#54D249",
               color: "#292e29",

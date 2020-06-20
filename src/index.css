@@ -75,7 +75,27 @@ input {
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2831, 31, 31, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2831, 31, 31, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='3.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+#headP {
+  color: #121212;
+  padding: 0.3rem 0.8rem 0.3rem 0.8rem;
+  margin-top: 3px;
+  margin-bottom: 0 !important;
+  font-weight: bold;
+}
+
+#headT {
+  margin-top: -7px;
+  text-shadow: 0px 0.3px, 0.3px 0px, 0.3px 0.3px;
+  letter-spacing: -0.5px;
+}
+
+.activeTrue {
+  color: #cbffc6 !important;
+  background-color: #2c7525;
+  border-radius: 999px;
 }
 
 .hs {
@@ -177,5 +197,14 @@ ul {
   }
   #main {
     max-width: 100% !important;
+  }
+  #mobile {
+    width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 1100px) and (min-width: 599px) {
+  #mobile {
+    width: 80% !important;
   }
 }

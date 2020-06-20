@@ -129,7 +129,6 @@ const Manage = () => {
           setnEmpty("none");
         }
         result.items.forEach(function (imageRef) {
-          console.log(imageRef);
           app
             .storage()
             .ref(imageRef.fullPath)
@@ -241,7 +240,6 @@ const Manage = () => {
         } else {
           setnEmpty("block");
           result.items.forEach(function (imageRef) {
-            console.log("sup");
             app
               .storage()
               .ref(imageRef.fullPath)
@@ -252,7 +250,6 @@ const Manage = () => {
                   .ref(imageRef.fullPath)
                   .getMetadata()
                   .then(function (metadata) {
-                    console.log(metadata);
                     setdownloadURLs((downloadURLs) => [...downloadURLs, url]);
                     setfiles((files) => [...files, imageRef.name]);
                     setdates((dates) => [...dates, metadata.timeCreated]);
@@ -271,9 +268,9 @@ const Manage = () => {
     <div>
       <div>
         <div className="my-tags w-100" style={{ marginTop: "-20px" }}>
-          <ul class="hs full no-scrollbar font-weight-bold">
+          <ul className="hs full no-scrollbar font-weight-bold">
             <p
-              class="recent mb-2"
+              className="recent mb-2"
               style={{
                 fontWeight: "bold",
                 fontSize: "18px",
@@ -283,9 +280,36 @@ const Manage = () => {
             >
               My Tags
             </p>
+
             {mytags.map(function (name, index) {
+              /*if (!mytags[index]) {
+                return (
+                  <li key={index} class="item">
+                    <Button
+                      onClick={() => myClick(name)}
+                      style={{
+                        backgroundColor: "#363636",
+                        outline: "none",
+                        border: " 2px solid #363636",
+                        fontWeight: "bold",
+                        width: "100%",
+                        borderRadius: "999px",
+                        height: "40px",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        color: "#e2e2e2",
+                        fontSize: "15px",
+                      }}
+                      className="tagbtn"
+                    >
+                      No Tags Yet
+                    </Button>
+                  </li>
+                );
+              }*/
               return (
-                <li key={index} class="item">
+                <li key={index} className="item">
                   <Button
                     onClick={() => myClick(name)}
                     style={{
@@ -312,7 +336,7 @@ const Manage = () => {
           </ul>
         </div>
       </div>
-      <div>
+      <div className="w-50 mx-auto" id="mobile">
         <FormLabel
           style={{
             color: "#929493",
@@ -375,7 +399,7 @@ const Manage = () => {
           }}
           variant="success"
         >
-          <p style={{ textAlign: "left" }}>
+          <div style={{ textAlign: "left" }}>
             <p>
               Tag Name : <b style={{ color: "#abffb2" }}>{tagname}</b>
             </p>
@@ -385,7 +409,7 @@ const Manage = () => {
             <p style={{ textAlign: "left" }}>
               Description: <b style={{ color: "#abffb2" }}>{description}</b>
             </p>
-          </p>
+          </div>
         </Alert>
       </div>
       <div
@@ -395,6 +419,8 @@ const Manage = () => {
           padding: "20px",
           borderRadius: "10px",
         }}
+        className="w-50 mx-auto"
+        id="mobile"
       >
         <div style={{}}>
           <h3
@@ -431,6 +457,7 @@ const Manage = () => {
                   id="mcard"
                   style={{ backgroundColor: "#282828" }}
                   onClick={() => window.open(`${downloadURLs[index]}`)}
+                  key={index}
                 >
                   <Card.Img
                     className="mx-auto mt-3"

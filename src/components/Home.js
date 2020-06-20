@@ -16,25 +16,7 @@ const Home = () => {
         className="container"
         style={{ maxWidth: "100%" }}
       >
-        {/*<ul class="hs full no-scrollbar font-weight-bold">
-              <p
-                class="recent mb-2"
-                style={{ fontWeight: "bold", fontSize: "18px" }}
-              >
-                Recently Used
-              </p>
-              <li class="item">test</li>
-              <li class="item">test</li>
-              <li class="item">test</li>
-              <li class="item">test</li>
-              <li class="item">test</li>
-              <li class="item">test</li>
-              <li class="item">test</li>
-              <li class="item">test</li>
-  </ul>*/}
-
         <Route exact path="/" component={Menu} />
-
         <Route exact path="/upload" component={Upload} />
         <Route exact path="/create" component={Create} />
         <Route exact path="/manage" component={Manage} />

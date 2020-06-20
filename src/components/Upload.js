@@ -23,9 +23,8 @@ const Upload = () => {
   const [filenames, setfilenames] = useState([]);
   const [files, setfiles] = useState([]);
   const [downloadURLs, setdownloadURLs] = useState([]);
-  const [isUploading, setisUploading] = useState(false);
   const [uploadProgress, setuploadProgress] = useState(0);
-  const [show, setShow] = useState("none");
+  const [showx, setShow] = useState("none");
   const [nones, setNones] = useState("none");
   const [mones, setMones] = useState("none");
   const [shows, setShows] = useState(false);
@@ -133,7 +132,6 @@ const Upload = () => {
   };
   const handleUploadStart = (filename) => {
     setfiles((files) => [...files, filename.name]);
-    setisUploading(true);
     setuploadProgress(0);
   };
 
@@ -142,7 +140,6 @@ const Upload = () => {
   };
 
   const handleUploadError = (error) => {
-    setisUploading(false);
     console.log(error);
   };
 
@@ -156,12 +153,11 @@ const Upload = () => {
     setfilenames((filenames) => [...filenames, filename]);
     setdownloadURLs((downloadURLs) => [...downloadURLs, downloadURL]);
     setuploadProgress(100);
-    setisUploading(false);
   };
 
   return (
     <div>
-      <div sty>
+      <div className="w-50 mx-auto" id="mobile">
         <FormLabel
           style={{ color: "#929493", fontWeight: "bold", fontSize: "18px" }}
         >
@@ -215,7 +211,7 @@ const Upload = () => {
             color: "white",
           }}
         >
-          <p style={{ textAlign: "left" }}>
+          <div style={{ textAlign: "left" }}>
             <p style={{ fontWeight: "bold", color: "#abffb2" }}>
               Looks Good. Start uploading files below.
             </p>
@@ -228,16 +224,18 @@ const Upload = () => {
             <p style={{ textAlign: "" }}>
               Description: <b style={{ color: "#abffb2" }}>{description}</b>
             </p>
-          </p>
+          </div>
         </Alert>
       </div>
       <div
         style={{
-          display: `${show}`,
+          display: `${showx}`,
           border: "2px dashed rgb(70, 204, 57, 0.5)",
           padding: "20px",
           borderRadius: "10px",
         }}
+        className="w-50 mx-auto"
+        id="mobile"
       >
         <label
           style={{
@@ -265,8 +263,11 @@ const Upload = () => {
         </label>
 
         <p
-          show={isUploading}
-          style={{ color: "#b2d1c1", fontWeight: "bold", fontSize: "18px" }}
+          style={{
+            color: "#b2d1c1",
+            fontWeight: "bold",
+            fontSize: "18px",
+          }}
           className="my-3 mb-4"
         >
           Progress: {uploadProgress}%
@@ -279,7 +280,10 @@ const Upload = () => {
         />
 
         <div
-          style={{ display: "flex", marginTop: "30px", flexDirection: "right" }}
+          style={{
+            display: "flex",
+            flexDirection: "right",
+          }}
         >
           <CardDeck>
             {files.map(function (name, index) {
@@ -288,7 +292,13 @@ const Upload = () => {
                   href={`${downloadURLs[index]}`}
                   style={{ textDecoration: "none", color: "black" }}
                 >
-                  <Card style={{ backgroundColor: "#363636", width: "10rem" }}>
+                  <Card
+                    style={{
+                      backgroundColor: "#363636",
+                      width: "10rem",
+                      marginTop: "20px",
+                    }}
+                  >
                     <Card.Img
                       className="mx-auto mt-3"
                       variant="top"
