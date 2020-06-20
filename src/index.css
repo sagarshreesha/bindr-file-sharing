@@ -69,6 +69,15 @@ input {
   height: 80px;
 }
 
+.navbar-dark .navbar-toggler {
+  color: rgb(31, 31, 31) !important;
+  border-color: rgba(255, 255, 255, 0) !important;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2831, 31, 31, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
 .hs {
   display: grid;
   grid-gap: calc(var(--gutter) / 0.7);

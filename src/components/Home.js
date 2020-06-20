@@ -14,7 +14,7 @@ const Home = () => {
         id="main"
         role="main"
         className="container"
-        style={{ maxWidth: "80%" }}
+        style={{ maxWidth: "100%" }}
       >
         {/*<ul class="hs full no-scrollbar font-weight-bold">
               <p
