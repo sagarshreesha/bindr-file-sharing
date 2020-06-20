@@ -30,6 +30,10 @@ input {
   margin-left: 10px;
 }
 
+#mcard {
+  cursor: pointer;
+}
+
 .starter-template {
 }
 .no-scrollbar {
@@ -96,8 +100,6 @@ ul {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgb(255, 255, 255);
-  border: 2px solid #5dea51;
   border-radius: 999px;
   cursor: pointer;
 }
@@ -139,6 +141,7 @@ ul {
 }
 
 .shadow-sm:hover {
+  background-color: #2e332e;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   transition: box-shadow 250ms;
 }
@@ -151,6 +154,10 @@ ul {
   margin: auto !important;
 }
 
+.tagbtn {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
 .tagbtn:focus {
   outline: none !important;
 }
@@ -158,5 +165,8 @@ ul {
 @media (max-width: 600px) {
   #formid {
     width: 100% !important;
+  }
+  #main {
+    max-width: 100% !important;
   }
 }

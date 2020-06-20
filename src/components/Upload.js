@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import app from "../base";
-import * as firebase from "firebase";
 import FileUploader from "react-firebase-file-uploader";
 import file from "../svg/file.png";
 import { Link } from "react-router-dom";
@@ -71,12 +70,7 @@ const Upload = () => {
         .get()
         .then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {
-            db.collection("tags")
-              .doc(doc.id)
-              .update({
-                filenames: firebase.firestore.FieldValue.arrayUnion(filenames),
-                urls: firebase.firestore.FieldValue.arrayUnion(downloadURLs),
-              });
+            db.collection("tags").doc(doc.id).update({});
           });
         });
       handleShow();

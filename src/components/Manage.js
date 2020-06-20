@@ -19,6 +19,8 @@ import "../util.css";
 const Manage = () => {
   const [tagname, setTagName] = useState(null);
   const [files, setfiles] = useState([]);
+  const [dates, setdates] = useState([]);
+  const [sizes, setsizes] = useState([]);
   const [downloadURLs, setdownloadURLs] = useState([]);
   const [show, setShow] = useState("none");
   const [nones, setNones] = useState("none");
@@ -28,6 +30,7 @@ const Manage = () => {
   const [owner, setOwner] = useState("");
   const [description, setDescription] = React.useState();
   const [empty, setEmpty] = useState("none");
+  const [nempty, setnEmpty] = useState("block");
 
   const [shows1, setShows1] = useState(false);
 
@@ -63,6 +66,7 @@ const Manage = () => {
 
   const checkBase = () => {
     setEmpty("none");
+    setnEmpty("block");
     setNones("none");
     setMones("none");
     setShow("none");
@@ -120,23 +124,56 @@ const Manage = () => {
       .ref(`${tagname}`)
       .listAll()
       .then(function (result) {
-        if (!result.items[0]) setEmpty("block");
+        if (!result.items[0]) {
+          setEmpty("block");
+          setnEmpty("none");
+        }
         result.items.forEach(function (imageRef) {
           console.log(imageRef);
-
           app
             .storage()
             .ref(imageRef.fullPath)
             .getDownloadURL()
             .then(function (url) {
-              setdownloadURLs((downloadURLs) => [...downloadURLs, url]);
-              setfiles((files) => [...files, imageRef.name]);
+              app
+                .storage()
+                .ref(imageRef.fullPath)
+                .getMetadata()
+                .then(function (metadata) {
+                  setdownloadURLs((downloadURLs) => [...downloadURLs, url]);
+                  setfiles((files) => [...files, imageRef.name]);
+                  setdates((dates) => [...dates, metadata.timeCreated]);
+                  setsizes((sizes) => [...sizes, metadata.size]);
+                });
             });
         });
       })
       .catch(function (error) {
         // Handle any errors
       });
+  };
+
+  const getCorrectDate = (datex) => {
+    let date = new Date(datex);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let dt = date.getDate();
+    if (dt < 10) {
+      dt = "0" + dt;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    return dt + "-" + month + "-" + year;
+  };
+
+  const getSize = (bytes) => {
+    var sizesx = ["Bytes", "KB", "MB", "GB", "TB"];
+    if (bytes === 0) return "n/a";
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i === 0) return bytes + " " + sizesx[i];
+    return (bytes / Math.pow(1024, i)).toFixed(1) + " " + sizesx[i];
   };
 
   const eCheckBase = (e) => {
@@ -198,19 +235,32 @@ const Manage = () => {
       .ref(`${name}`)
       .listAll()
       .then(function (result) {
-        if (!result.items[0]) setEmpty("block");
-        result.items.forEach(function (imageRef) {
-          console.log(imageRef);
-
-          app
-            .storage()
-            .ref(imageRef.fullPath)
-            .getDownloadURL()
-            .then(function (url) {
-              setdownloadURLs((downloadURLs) => [...downloadURLs, url]);
-              setfiles((files) => [...files, imageRef.name]);
-            });
-        });
+        if (!result.items[0]) {
+          setEmpty("block");
+          setnEmpty("none");
+        } else {
+          setnEmpty("block");
+          result.items.forEach(function (imageRef) {
+            console.log("sup");
+            app
+              .storage()
+              .ref(imageRef.fullPath)
+              .getDownloadURL()
+              .then(function (url) {
+                app
+                  .storage()
+                  .ref(imageRef.fullPath)
+                  .getMetadata()
+                  .then(function (metadata) {
+                    console.log(metadata);
+                    setdownloadURLs((downloadURLs) => [...downloadURLs, url]);
+                    setfiles((files) => [...files, imageRef.name]);
+                    setdates((dates) => [...dates, metadata.timeCreated]);
+                    setsizes((sizes) => [...sizes, metadata.size]);
+                  });
+              });
+          });
+        }
       })
       .catch(function (error) {
         // Handle any errors
@@ -220,11 +270,16 @@ const Manage = () => {
   return (
     <div>
       <div>
-        <div className="my-tags mt-5 w-100">
+        <div className="my-tags w-100" style={{ marginTop: "-20px" }}>
           <ul class="hs full no-scrollbar font-weight-bold">
             <p
               class="recent mb-2"
-              style={{ fontWeight: "bold", fontSize: "18px" }}
+              style={{
+                fontWeight: "bold",
+                fontSize: "18px",
+                color: "#929493",
+                textAlign: "left",
+              }}
             >
               My Tags
             </p>
@@ -234,13 +289,18 @@ const Manage = () => {
                   <Button
                     onClick={() => myClick(name)}
                     style={{
-                      backgroundColor: "white",
-                      color: "black",
+                      backgroundColor: "#363636",
                       outline: "none",
-                      border: "none",
+                      border: " 2px solid #363636",
                       fontWeight: "bold",
                       width: "100%",
                       borderRadius: "999px",
+                      height: "40px",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      color: "#e2e2e2",
+                      fontSize: "15px",
                     }}
                     className="tagbtn"
                   >
@@ -253,12 +313,26 @@ const Manage = () => {
         </div>
       </div>
       <div>
-        <FormLabel>
+        <FormLabel
+          style={{
+            color: "#929493",
+            fontWeight: "bold",
+            fontSize: "18px",
+            marginTop: "1.5rem",
+          }}
+        >
           <b>Tag Name</b>
         </FormLabel>
         <InputGroup className="mb-3">
           <FormControl
-            style={{ height: "40px" }}
+            style={{
+              backgroundColor: "#363636",
+              border: "none",
+              color: "white",
+              outline: "none",
+              fontWeight: "bold",
+              height: "40px",
+            }}
             placeholder="Tag Name"
             aria-label="Tag Name"
             aria-describedby="basic-addon2"
@@ -266,7 +340,11 @@ const Manage = () => {
             onKeyPress={eCheckBase}
           />
           <InputGroup.Append>
-            <Button style={{ outline: "none" }} id="cusbtn" onClick={checkBase}>
+            <Button
+              style={{ outline: "none", color: "#121212", fontWeight: "bold" }}
+              id="cusbtn"
+              onClick={checkBase}
+            >
               <b>Check</b>
             </Button>
           </InputGroup.Append>
@@ -277,20 +355,35 @@ const Manage = () => {
           variant="success"
           className="mx-auto my-3"
         />
-        <Alert style={{ display: `${nones}` }} variant="danger">
+        <Alert
+          style={{
+            display: `${nones}`,
+            backgroundColor: "#4d1a1a",
+            color: "white",
+            border: "none",
+          }}
+          variant="danger"
+        >
           Oops! The tag doesn't exist
         </Alert>
-        <Alert style={{ display: `${mones}` }} variant="success">
+        <Alert
+          style={{
+            display: `${mones}`,
+            backgroundColor: "#163813",
+            color: "white",
+            border: "none",
+          }}
+          variant="success"
+        >
           <p style={{ textAlign: "left" }}>
-            <p>Looks Good. Start uploading files below.</p>
             <p>
-              Tag Name : <b>{tagname}</b>
+              Tag Name : <b style={{ color: "#abffb2" }}>{tagname}</b>
             </p>
             <p>
-              Owner: <b>{owner}</b>
+              Owner: <b style={{ color: "#abffb2" }}>{owner}</b>
             </p>
-            <p style={{ textAlign: "" }}>
-              Description: <b>{description}</b>
+            <p style={{ textAlign: "left" }}>
+              Description: <b style={{ color: "#abffb2" }}>{description}</b>
             </p>
           </p>
         </Alert>
@@ -303,13 +396,40 @@ const Manage = () => {
           borderRadius: "10px",
         }}
       >
-        <div style={{ marginTop: "30px" }}>
-          <h2 style={{ display: `${empty}` }}>No Files!</h2>
-          <CardDeck>
+        <div style={{}}>
+          <h3
+            style={{
+              display: `${empty}`,
+              fontWeight: "bold",
+              color: "#e63535",
+            }}
+          >
+            No Files!
+          </h3>
+          <h3
+            style={{
+              display: `${nempty}`,
+              color: "#929493",
+              fontWeight: "bold",
+              marginLeft: "5px",
+              marginBottom: "15px",
+            }}
+          >
+            All files
+          </h3>
+          <CardDeck
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(13rem, 1fr))",
+              gridGap: "1.5rem",
+            }}
+          >
             {files.map(function (name, index) {
               return (
                 <Card
-                  style={{ width: "10rem" }}
+                  className="shadow"
+                  id="mcard"
+                  style={{ backgroundColor: "#282828" }}
                   onClick={() => window.open(`${downloadURLs[index]}`)}
                 >
                   <Card.Img
@@ -319,10 +439,27 @@ const Manage = () => {
                     style={{ width: "4rem", justifyContent: "center" }}
                   />
                   <Card.Body>
-                    <Card.Title className="mt-0 mb-0">
-                      <b style={{ fontSize: "15px" }}>{name}</b>
+                    <Card.Title
+                      className="mt-0 mb-0"
+                      style={{ color: "#b2d1c1", fontSize: "16px" }}
+                    >
+                      <b>{name}</b>
                     </Card.Title>
                   </Card.Body>
+                  <Card.Footer
+                    style={{
+                      backgroundColor: "#292e29",
+                      color: "#b2d1c1",
+                      padding: "15px 15px 0px 15px",
+                    }}
+                  >
+                    <p style={{ float: "left" }}>
+                      {getCorrectDate(dates[index])}
+                    </p>
+                    <p style={{ float: "right", fontWeight: "bold" }}>
+                      {getSize(sizes[index])}
+                    </p>
+                  </Card.Footer>
                 </Card>
               );
             })}

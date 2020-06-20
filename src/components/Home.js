@@ -10,7 +10,12 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <main role="main" className="container">
+      <main
+        id="main"
+        role="main"
+        className="container"
+        style={{ maxWidth: "80%" }}
+      >
         {/*<ul class="hs full no-scrollbar font-weight-bold">
               <p
                 class="recent mb-2"

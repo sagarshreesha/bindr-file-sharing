@@ -8,7 +8,7 @@ import manage from "../svg/manage.png";
 const Menu = () => {
   return (
     <div>
-      <Container className="mb-5" wdith="100%">
+      <Container className="">
         <CardDeck>
           <Card
             className="shadow-sm"

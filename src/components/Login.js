@@ -3,6 +3,7 @@ import { withRouter, Redirect } from "react-router";
 import app from "../base.js";
 import { AuthContext } from "../Auth.js";
 import { Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Login = ({ history }) => {
   const handleLogin = useCallback(
@@ -37,7 +38,7 @@ const Login = ({ history }) => {
         justifyContent: "center",
         verticalAlign: "middle",
         padding: "20px",
-        marginTop: "10vh",
+        marginTop: "5vh",
       }}
     >
       <center>
@@ -56,18 +57,6 @@ const Login = ({ history }) => {
           borderRadius: "20px",
         }}
       >
-        {/*<h1>Log in</h1>
-      <form onSubmit={handleLogin}>
-        <label>
-          Email
-          <input name="email" type="email" placeholder="Email" />
-        </label>
-        <label>
-          Password
-          <input name="password" type="password" placeholder="Password" />
-        </label>
-        <button type="submit">Log in</button>
-      </form>*/}
         <Form onSubmit={handleLogin}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label
@@ -131,6 +120,27 @@ const Login = ({ history }) => {
           </center>
         </Form>
       </div>
+      <center>
+        <Link to="./signup">
+          <Button
+            variant="primary"
+            type="submit"
+            className="mt-3"
+            style={{
+              backgroundColor: "#121212",
+              padding: "8px 20px 8px 20px",
+              fontWeight: "bold",
+              color: "#5dea51",
+              border: "none",
+              fontSize: "17px",
+              marginLeft: "10px",
+              cursor: "pointer",
+            }}
+          >
+            Sign Up Here
+          </Button>
+        </Link>
+      </center>
     </div>
   );
 };
