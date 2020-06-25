@@ -1,9 +1,8 @@
 import React from "react";
 import app from "../base";
-import { Navbar, Nav, Dropdown } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import prof from "../svg/prof.png";
-import noti from "../svg/noti.png";
 
 const Header = () => {
   const [activeH, setActiveH] = React.useState("activeFalse");
@@ -11,10 +10,6 @@ const Header = () => {
   const [activeU, setActiveU] = React.useState("activeFalse");
   const [activeM, setActiveM] = React.useState("activeFalse");
   const [user, setUser] = React.useState("");
-  const [notis, setNotis] = React.useState([]);
-  const [requests, setRequests] = React.useState([]);
-  const [reqTags, setReqTags] = React.useState([]);
-  const [finalReq, setFinalReq] = React.useState([""]);
 
   React.useEffect(() => {
     if (window.location.href.toString().includes("create", 1)) {
@@ -45,7 +40,6 @@ const Header = () => {
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           setUser(doc.data().name);
-          setNotis(doc.data.notis);
         });
       });
   }, []);
@@ -123,7 +117,11 @@ const Header = () => {
             <p id="headP" style={{ float: "right" }}>
               {user}{" "}
               <span style={{ paddingLeft: "3px" }}>
-                <img src={prof} style={{ paddingBottom: "2px" }}></img>
+                <img
+                  alt="profile_pic"
+                  src={prof}
+                  style={{ paddingBottom: "2px" }}
+                ></img>
               </span>
             </p>
           </Nav>

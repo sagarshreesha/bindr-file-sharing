@@ -24,6 +24,8 @@ const Manage = () => {
   const [downloadURLs, setdownloadURLs] = useState([]);
   const [show, setShow] = useState("none");
   const [nones, setNones] = useState("none");
+  const [reqModal, setRequestModal] = useState(false);
+  const [reqModalSuccess, setReqModalSuccess] = useState(false);
   const [mones, setMones] = useState("none");
   const [shows, setShows] = useState(false);
   const [pending, setPending] = useState("none");
@@ -31,11 +33,16 @@ const Manage = () => {
   const [description, setDescription] = React.useState();
   const [empty, setEmpty] = useState("none");
   const [nempty, setnEmpty] = useState("block");
+  const [nonesx, setNonesx] = useState("none");
+  const [uid, setUID] = useState("");
+  const [notis, setNotis] = useState([]);
+  const [reqTags, setReqTags] = useState([]);
 
   const [shows1, setShows1] = useState(false);
 
   React.useEffect(() => {
     const uid = app.auth().currentUser.uid;
+    setUID(uid);
     const db = app.firestore();
     db.collection("users")
       .where("uid", "==", uid)
@@ -58,6 +65,8 @@ const Manage = () => {
   const handleClose = () => {
     setShows(false);
     setShows1(false);
+    setRequestModal(false);
+    setReqModalSuccess(false);
   };
 
   const handleChange = (e) => {
@@ -79,11 +88,47 @@ const Manage = () => {
       .then(function (querySnapshot) {
         setPending("none");
         if (!querySnapshot.empty) {
+          app
+            .firestore()
+            .collection("tags")
+            .where("name", "==", tagname)
+            .get()
+            .then(function (querySnapshotx) {
+              querySnapshot.forEach(function (doc) {
+                console.log(doc.data());
+                if (doc.data().access === "2") {
+                  if (uid === doc.data().owner) {
+                    setMones("block");
+                    setNones("none");
+                    setNonesx("none");
+                    setShow("block");
+                    owner.concat("(You)");
+                    getOwner();
+                  } else {
+                    const db = app.firestore();
+                    db.collection("tags")
+                      .where("name", "==", tagname)
+                      .get()
+                      .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                          setNotis(doc.data().requests);
+                          setReqTags(doc.data().reqTags);
+                        });
+                      });
+                    setNonesx("block");
+                    setMones("none");
+                    setShow("none");
+                  }
+                }
+              });
+            });
           setMones("block");
           setNones("none");
+          setNonesx("none");
           setShow("block");
         } else {
           setNones("block");
+          setNonesx("none");
           setMones("none");
           setShow("none");
         }
@@ -114,6 +159,36 @@ const Manage = () => {
       });
 
     getFiles();
+  };
+
+  const requestAccess = () => {
+    const db = app.firestore();
+    db.collection("tags")
+      .where("name", "==", tagname)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          if (doc.data().requests.includes(uid)) {
+            setRequestModal(true);
+          } else {
+            const db = app.firestore();
+            db.collection("tags")
+              .where("name", "==", tagname)
+              .get()
+              .then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                  notis.push(uid);
+                  reqTags.push(tagname);
+                  db.collection("tags").doc(doc.id).update({
+                    requests: notis,
+                    reqTags: reqTags,
+                  });
+                });
+              });
+            setReqModalSuccess(true);
+          }
+        });
+      });
   };
 
   const getFiles = () => {
@@ -385,6 +460,32 @@ const Manage = () => {
             </p>
           </div>
         </Alert>
+        <Alert
+          style={{
+            display: `${nonesx}`,
+            backgroundColor: "#4d1a1a",
+            color: "white",
+          }}
+        >
+          You don't have permission
+          <br />
+          <Button
+            size="sm"
+            className="mt-3 mb-3"
+            style={{
+              backgroundColor: "#300606",
+              border: "none",
+              color: "#ffd9d9",
+              padding: 10,
+              borderRadius: 4,
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
+            onClick={requestAccess}
+          >
+            Request Access
+          </Button>
+        </Alert>
       </div>
       <div
         style={{
@@ -513,6 +614,99 @@ const Manage = () => {
 
           <Modal.Footer>
             <Button id="cusbtn" variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal
+          show={reqModal}
+          onHide={handleClose}
+          size="sm"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header
+            style={{
+              backgroundColor: "#363535",
+              color: "#ff3b3b",
+              border: "none",
+            }}
+          >
+            <Modal.Title>
+              <b>Request Already Sent</b>
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
+            Please wait till the owner approves your request.
+          </Modal.Body>
+
+          <Modal.Footer
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
+            <Button
+              id="cusbtn"
+              variant="secondary"
+              onClick={handleClose}
+              style={{ color: "#121212", fontWeight: "bold" }}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={reqModalSuccess}
+          onHide={handleClose}
+          size="sm"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header
+            style={{
+              backgroundColor: "#363535",
+              color: "#54ff57",
+              border: "none",
+            }}
+          >
+            <Modal.Title>
+              <b>Request Sent</b>
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
+            Please wait till the owner approves your request.
+          </Modal.Body>
+
+          <Modal.Footer
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
+            <Button
+              id="cusbtn"
+              variant="secondary"
+              onClick={handleClose}
+              style={{ color: "#121212", fontWeight: "bold" }}
+            >
               Close
             </Button>
           </Modal.Footer>

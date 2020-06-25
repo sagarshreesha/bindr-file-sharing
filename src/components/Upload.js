@@ -36,7 +36,6 @@ const Upload = () => {
   const [description, setDescription] = React.useState();
   const [user, setUser] = useState("");
   const [uid, setUID] = useState("");
-  const [to, setTo] = useState("");
   const [notis, setNotis] = useState([]);
   const [reqTags, setReqTags] = useState([]);
   const [shows1, setShows1] = useState(false);
@@ -158,7 +157,6 @@ const Upload = () => {
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           setDescription(doc.data().desc);
-          setTo(doc.data().owner);
           db.collection("users")
             .where("uid", "==", doc.data().owner)
             .get()
@@ -219,7 +217,6 @@ const Upload = () => {
               .get()
               .then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
-                  setTo(doc.data().owner);
                   notis.push(uid);
                   reqTags.push(tagname);
                   db.collection("tags").doc(doc.id).update({
