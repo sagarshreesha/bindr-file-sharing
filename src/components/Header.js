@@ -1,13 +1,20 @@
 import React from "react";
 import app from "../base";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import prof from "../svg/prof.png";
+import noti from "../svg/noti.png";
 
 const Header = () => {
   const [activeH, setActiveH] = React.useState("activeFalse");
   const [activeC, setActiveC] = React.useState("activeFalse");
   const [activeU, setActiveU] = React.useState("activeFalse");
   const [activeM, setActiveM] = React.useState("activeFalse");
+  const [user, setUser] = React.useState("");
+  const [notis, setNotis] = React.useState([]);
+  const [requests, setRequests] = React.useState([]);
+  const [reqTags, setReqTags] = React.useState([]);
+  const [finalReq, setFinalReq] = React.useState([""]);
 
   React.useEffect(() => {
     if (window.location.href.toString().includes("create", 1)) {
@@ -19,6 +26,28 @@ const Header = () => {
     } else {
       setActiveH("activeTrue");
     }
+    const uid = app.auth().currentUser.uid;
+    const db = app.firestore();
+    db.collection("tags")
+      .where("owner", "==", uid)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {});
+      });
+  }, []);
+
+  React.useEffect(() => {
+    const uid = app.auth().currentUser.uid;
+    const db = app.firestore();
+    db.collection("users")
+      .where("uid", "==", uid)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          setUser(doc.data().name);
+          setNotis(doc.data.notis);
+        });
+      });
   }, []);
 
   return (
@@ -65,12 +94,38 @@ const Header = () => {
               </p>
             </Link>
             <Nav.Link
+              id="headP"
               onClick={() => {
                 app.auth().signOut();
               }}
             >
               Sign Out
             </Nav.Link>
+          </Nav>
+          {/*<Nav>
+            <Dropdown>
+              <Dropdown.Toggle
+                id="dropdown-menu-align-right"
+                style={{ backgroundColor: "rgb(84, 210, 73)", border: "none" }}
+              >
+                <img src={noti} style={{ marginBottom: "3px" }}></img>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Nav>*/}
+
+          <Nav>
+            <p id="headP" style={{ float: "right" }}>
+              {user}{" "}
+              <span style={{ paddingLeft: "3px" }}>
+                <img src={prof} style={{ paddingBottom: "2px" }}></img>
+              </span>
+            </p>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

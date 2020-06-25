@@ -17,6 +17,7 @@ const SignUp = ({ history }) => {
           name: name.value,
           photoURL: "",
           uid: app.auth().currentUser.uid,
+          notis: [],
         });
         history.push("/");
       } catch (error) {

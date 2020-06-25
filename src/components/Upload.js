@@ -26,13 +26,19 @@ const Upload = () => {
   const [uploadProgress, setuploadProgress] = useState(0);
   const [showx, setShow] = useState("none");
   const [nones, setNones] = useState("none");
+  const [nonesx, setNonesx] = useState("none");
   const [mones, setMones] = useState("none");
   const [shows, setShows] = useState(false);
+  const [reqModal, setRequestModal] = useState(false);
+  const [reqModalSuccess, setReqModalSuccess] = useState(false);
   const [pending, setPending] = useState("none");
   const [owner, setOwner] = useState("");
   const [description, setDescription] = React.useState();
   const [user, setUser] = useState("");
-
+  const [uid, setUID] = useState("");
+  const [to, setTo] = useState("");
+  const [notis, setNotis] = useState([]);
+  const [reqTags, setReqTags] = useState([]);
   const [shows1, setShows1] = useState(false);
 
   React.useEffect(() => {
@@ -44,6 +50,7 @@ const Upload = () => {
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           setUser(doc.data().name);
+          setUID(doc.data().uid);
         });
       });
   }, []);
@@ -51,6 +58,8 @@ const Upload = () => {
   const handleClose = () => {
     setShows(false);
     setShows1(false);
+    setRequestModal(false);
+    setReqModalSuccess(false);
   };
   const handleShow = () => setShows(true);
 
@@ -89,11 +98,47 @@ const Upload = () => {
       .then(function (querySnapshot) {
         setPending("none");
         if (!querySnapshot.empty) {
+          app
+            .firestore()
+            .collection("tags")
+            .where("name", "==", tagname)
+            .get()
+            .then(function (querySnapshotx) {
+              querySnapshot.forEach(function (doc) {
+                console.log(doc.data());
+                if (doc.data().access === "2") {
+                  if (uid === doc.data().owner) {
+                    setMones("block");
+                    setNones("none");
+                    setNonesx("none");
+                    setShow("block");
+                    owner.concat("(You)");
+                    getOwner();
+                  } else {
+                    const db = app.firestore();
+                    db.collection("tags")
+                      .where("name", "==", tagname)
+                      .get()
+                      .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                          setNotis(doc.data().requests);
+                          setReqTags(doc.data().reqTags);
+                        });
+                      });
+                    setNonesx("block");
+                    setMones("none");
+                    setShow("none");
+                  }
+                }
+              });
+            });
           setMones("block");
           setNones("none");
+          setNonesx("none");
           setShow("block");
         } else {
           setNones("block");
+          setNonesx("none");
           setMones("none");
           setShow("none");
         }
@@ -113,12 +158,15 @@ const Upload = () => {
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           setDescription(doc.data().desc);
+          setTo(doc.data().owner);
           db.collection("users")
             .where("uid", "==", doc.data().owner)
             .get()
             .then(function (querySnapshot) {
               querySnapshot.forEach(function (doc) {
-                setOwner(doc.data().name);
+                if (uid === doc.data().uid) {
+                  setOwner(doc.data().name + " ( You )");
+                } else setOwner(doc.data().name);
               });
             });
         });
@@ -153,6 +201,37 @@ const Upload = () => {
     setfilenames((filenames) => [...filenames, filename]);
     setdownloadURLs((downloadURLs) => [...downloadURLs, downloadURL]);
     setuploadProgress(100);
+  };
+
+  const requestAccess = () => {
+    const db = app.firestore();
+    db.collection("tags")
+      .where("name", "==", tagname)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          if (doc.data().requests.includes(uid)) {
+            setRequestModal(true);
+          } else {
+            const db = app.firestore();
+            db.collection("tags")
+              .where("name", "==", tagname)
+              .get()
+              .then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                  setTo(doc.data().owner);
+                  notis.push(uid);
+                  reqTags.push(tagname);
+                  db.collection("tags").doc(doc.id).update({
+                    requests: notis,
+                    reqTags: reqTags,
+                  });
+                });
+              });
+            setReqModalSuccess(true);
+          }
+        });
+      });
   };
 
   return (
@@ -203,6 +282,32 @@ const Upload = () => {
           }}
         >
           Oops! The tag doesn't exist
+        </Alert>
+        <Alert
+          style={{
+            display: `${nonesx}`,
+            backgroundColor: "#4d1a1a",
+            color: "white",
+          }}
+        >
+          You don't have permission
+          <br />
+          <Button
+            size="sm"
+            className="mt-3 mb-3"
+            style={{
+              backgroundColor: "#300606",
+              border: "none",
+              color: "#ffd9d9",
+              padding: 10,
+              borderRadius: 4,
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
+            onClick={requestAccess}
+          >
+            Request Access
+          </Button>
         </Alert>
         <Alert
           style={{
@@ -397,6 +502,100 @@ const Upload = () => {
             }}
           >
             Please add some files by clicking on "Choose Files"
+          </Modal.Body>
+
+          <Modal.Footer
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
+            <Button
+              id="cusbtn"
+              variant="secondary"
+              onClick={handleClose}
+              style={{ color: "#121212", fontWeight: "bold" }}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={reqModal}
+          onHide={handleClose}
+          size="sm"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header
+            style={{
+              backgroundColor: "#363535",
+              color: "#ff3b3b",
+              border: "none",
+            }}
+          >
+            <Modal.Title>
+              <b>Request Already Sent</b>
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
+            Please wait till the owner approves your request.
+          </Modal.Body>
+
+          <Modal.Footer
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
+            <Button
+              id="cusbtn"
+              variant="secondary"
+              onClick={handleClose}
+              style={{ color: "#121212", fontWeight: "bold" }}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={reqModalSuccess}
+          onHide={handleClose}
+          size="sm"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header
+            style={{
+              backgroundColor: "#363535",
+              color: "#54ff57",
+              border: "none",
+            }}
+          >
+            <Modal.Title>
+              <b>Request Sent</b>
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body
+            style={{
+              backgroundColor: "#363535",
+              color: "white",
+              border: "none",
+            }}
+          >
+            Please wait till the owner approves your request.
           </Modal.Body>
 
           <Modal.Footer

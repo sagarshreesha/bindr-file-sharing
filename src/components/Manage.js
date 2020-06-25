@@ -282,32 +282,6 @@ const Manage = () => {
             </p>
 
             {mytags.map(function (name, index) {
-              /*if (!mytags[index]) {
-                return (
-                  <li key={index} class="item">
-                    <Button
-                      onClick={() => myClick(name)}
-                      style={{
-                        backgroundColor: "#363636",
-                        outline: "none",
-                        border: " 2px solid #363636",
-                        fontWeight: "bold",
-                        width: "100%",
-                        borderRadius: "999px",
-                        height: "40px",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        color: "#e2e2e2",
-                        fontSize: "15px",
-                      }}
-                      className="tagbtn"
-                    >
-                      No Tags Yet
-                    </Button>
-                  </li>
-                );
-              }*/
               return (
                 <li key={index} className="item">
                   <Button

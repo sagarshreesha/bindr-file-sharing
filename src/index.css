@@ -79,10 +79,13 @@ input {
 
 #headP {
   color: #121212;
-  padding: 0.3rem 0.8rem 0.3rem 0.8rem;
+  padding: 0.3rem 0.8rem 0.3rem 0.8rem !important;
   margin-top: 3px;
   margin-bottom: 0 !important;
   font-weight: bold;
+}
+.dropdown-toggle::after {
+  color: black;
 }
 
 #headT {

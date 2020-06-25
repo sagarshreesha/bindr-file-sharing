@@ -7,7 +7,7 @@ import manage from "../svg/manage.png";
 
 const Menu = () => {
   return (
-    <div>
+    <div style={{ marginBottom: "40px" }}>
       <Container className="">
         <CardDeck>
           <Card
