@@ -60,6 +60,16 @@ const Header = () => {
           }}
         >
           Tggr
+          <p
+            style={{
+              fontSize: "10px",
+              padding: "0px",
+              margin: "-10px 0px 0px 45px",
+              fontWeight: "normal",
+            }}
+          >
+            Beta
+          </p>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
