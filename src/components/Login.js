@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
 import app from "../base.js";
 import { AuthContext } from "../Auth.js";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Login = ({ history }) => {
@@ -142,6 +142,21 @@ const Login = ({ history }) => {
           </Button>
         </Link>
       </center>
+      <Alert
+        className="mx-auto shadow mt-4"
+        style={{
+          maxWidth: "300px",
+          backgroundColor: "#202020",
+          border: "none",
+          color: "#999999",
+          textAlign: "center",
+        }}
+      >
+        <p style={{ fontWeight: "bold" }}>Want to try the plaform ?</p>
+        <p>
+          Username : test@test.com <br /> Password : test123{" "}
+        </p>
+      </Alert>
     </div>
   );
 };
