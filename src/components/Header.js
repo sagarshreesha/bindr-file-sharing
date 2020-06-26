@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import prof from "../svg/prof.png";
 
 const Header = () => {
-  const [activeH, setActiveH] = React.useState("activeFalse");
   const [activeC, setActiveC] = React.useState("activeFalse");
   const [activeU, setActiveU] = React.useState("activeFalse");
   const [activeM, setActiveM] = React.useState("activeFalse");
@@ -18,8 +17,6 @@ const Header = () => {
       setActiveU("activeTrue");
     } else if (window.location.href.toString().includes("manage", 1)) {
       setActiveM("activeTrue");
-    } else {
-      setActiveH("activeTrue");
     }
     const uid = app.auth().currentUser.uid;
     const db = app.firestore();
@@ -67,11 +64,6 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Link style={{ textDecoration: "none" }} to="/">
-              <p id="headP" className={activeH}>
-                Home
-              </p>
-            </Link>
             <Link style={{ textDecoration: "none" }} to="./create">
               <p id="headP" className={activeC}>
                 Create
@@ -120,7 +112,7 @@ const Header = () => {
                 <img
                   alt="profile_pic"
                   src={prof}
-                  style={{ paddingBottom: "2px" }}
+                  style={{ paddingBottom: "2px", width: "20px" }}
                 ></img>
               </span>
             </p>
