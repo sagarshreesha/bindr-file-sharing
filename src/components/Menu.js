@@ -34,8 +34,8 @@ const Menu = () => {
               </Card.Title>
               <Card.Text style={{ color: "#d3e8d1", lineHeight: "2rem" }}>
                 Want to collaborate with your team ? Create a tag here and share
-                it to your team. All the files uploaded under the created tag
-                can be seen by all. No more searching of annoying links.
+                it to your team. Users can upload files under this tag. No more
+                searching of annoying links.
               </Card.Text>
             </Card.Body>
             <Card.Footer style={{ backgroundColor: "#292e29" }}>
@@ -74,8 +74,8 @@ const Menu = () => {
               </Card.Title>
               <Card.Text style={{ color: "#d3e8d1", lineHeight: "2rem" }}>
                 Got a tag ? Upload files to the tag so that your team can
-                collaborate effeciently. You can view all the files by your
-                peers uploaded under this tag.
+                collaborate effeciently. Request access to the owner if it is a
+                private tag.
               </Card.Text>
             </Card.Body>
             <Card.Footer style={{ backgroundColor: "#292e29" }}>
@@ -110,11 +110,11 @@ const Menu = () => {
                 className="font-weight-bold"
                 style={{ color: "#b1ffab", lineHeight: "2rem" }}
               >
-                My Tags
+                Manage Tags
               </Card.Title>
               <Card.Text style={{ color: "#d3e8d1", lineHeight: "2rem" }}>
-                Manage your tags here. Change access permissions, delete
-                unwanted tags, share the tags. Explore more here.
+                Manage all the tags here. View all the files uploaded by
+                different users under a tag. View and download files on the go.
               </Card.Text>
             </Card.Body>
             <Card.Footer style={{ backgroundColor: "#292e29" }}>

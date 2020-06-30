@@ -171,6 +171,10 @@ ul {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.07) !important;
 }
 
+.dropleft .dropdown-toggle::before {
+  display: none !important;
+}
+
 .shadow-sm:hover {
   background-color: #2e332e;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
@@ -179,6 +183,17 @@ ul {
 
 .login {
   max-width: 600px;
+}
+
+#notidd {
+  min-width: 23rem;
+  background-color: #ccffc6;
+  border: none;
+  padding: 0px;
+}
+
+#dditem:hover {
+  background-color: #ccffc6;
 }
 
 .head-login {
@@ -202,6 +217,9 @@ ul {
   }
   #mobile {
     width: 100% !important;
+  }
+  #notidd {
+    min-width: 10rem;
   }
 }
 

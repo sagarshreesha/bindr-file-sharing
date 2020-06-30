@@ -15,6 +15,7 @@ import {
   Fade,
 } from "react-bootstrap";
 import "../util.css";
+import firebase from "firebase";
 
 const Manage = () => {
   const [tagname, setTagName] = useState(null);
@@ -37,6 +38,8 @@ const Manage = () => {
   const [uid, setUID] = useState("");
   const [notis, setNotis] = useState([]);
   const [reqTags, setReqTags] = useState([]);
+  const [names, setNames] = useState([]);
+  const [user, setUser] = useState("");
 
   const [shows1, setShows1] = useState(false);
 
@@ -48,7 +51,9 @@ const Manage = () => {
       .where("uid", "==", uid)
       .get()
       .then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {});
+        querySnapshot.forEach(function (doc) {
+          setUser(doc.data().name);
+        });
       });
     db.collection("tags")
       .where("owner", "==", uid)
@@ -93,17 +98,15 @@ const Manage = () => {
             .collection("tags")
             .where("name", "==", tagname)
             .get()
-            .then(function (querySnapshotx) {
+            .then(function (querySnapshot) {
               querySnapshot.forEach(function (doc) {
-                console.log(doc.data());
                 if (doc.data().access === "2") {
-                  if (uid === doc.data().owner) {
+                  if (doc.data().users.includes(uid)) {
                     setMones("block");
                     setNones("none");
                     setNonesx("none");
                     setShow("block");
-                    owner.concat("(You)");
-                    getOwner();
+                    getOwnerx();
                   } else {
                     const db = app.firestore();
                     db.collection("tags")
@@ -111,6 +114,7 @@ const Manage = () => {
                       .get()
                       .then(function (querySnapshot) {
                         querySnapshot.forEach(function (doc) {
+                          setNames(doc.data().reqNames);
                           setNotis(doc.data().requests);
                           setReqTags(doc.data().reqTags);
                         });
@@ -139,6 +143,28 @@ const Manage = () => {
     getOwner();
   };
 
+  const getOwnerx = () => {
+    const db = app.firestore();
+    db.collection("tags")
+      .where("name", "==", tagname)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          setDescription(doc.data().desc);
+          db.collection("users")
+            .where("uid", "==", doc.data().owner)
+            .get()
+            .then(function (querySnapshot) {
+              querySnapshot.forEach(function (doc) {
+                if (uid === doc.data().uid) {
+                  setOwner(doc.data().name + " ( You )");
+                } else setOwner(doc.data().name);
+              });
+            });
+        });
+      });
+  };
+
   const getOwner = () => {
     const db = app.firestore();
     db.collection("tags")
@@ -152,7 +178,9 @@ const Manage = () => {
             .get()
             .then(function (querySnapshot) {
               querySnapshot.forEach(function (doc) {
-                setOwner(doc.data().name);
+                if (uid === doc.data().uid) {
+                  setOwner(doc.data().name + " ( You )");
+                } else setOwner(doc.data().name);
               });
             });
         });
@@ -162,6 +190,8 @@ const Manage = () => {
   };
 
   const requestAccess = () => {
+    if (reqTags || notis || names) {
+    }
     const db = app.firestore();
     db.collection("tags")
       .where("name", "==", tagname)
@@ -177,12 +207,17 @@ const Manage = () => {
               .get()
               .then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
-                  notis.push(uid);
-                  reqTags.push(tagname);
-                  db.collection("tags").doc(doc.id).update({
-                    requests: notis,
-                    reqTags: reqTags,
-                  });
+                  db.collection("tags")
+                    .doc(doc.id)
+                    .update({
+                      requests: firebase.firestore.FieldValue.arrayUnion(uid),
+                      reqTags: firebase.firestore.FieldValue.arrayUnion(
+                        tagname
+                      ),
+                      reqNames: firebase.firestore.FieldValue.arrayUnion(
+                        user + " is requesting access for " + tagname
+                      ),
+                    });
                 });
               });
             setReqModalSuccess(true);
@@ -296,7 +331,9 @@ const Manage = () => {
             .get()
             .then(function (querySnapshot) {
               querySnapshot.forEach(function (doc) {
-                setOwner(doc.data().name);
+                if (uid === doc.data().uid) {
+                  setOwner(doc.data().name + " ( You )");
+                } else setOwner(doc.data().name);
               });
             });
         });

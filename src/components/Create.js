@@ -21,13 +21,14 @@ const Create = () => {
             name: tagname,
             filenames: filename,
             access: access,
-            users: users,
+            users: [`${users}`],
             urls: downloadURLs,
             date: date,
             owner: users,
             desc: description,
             requests: [],
             reqTags: [],
+            reqNames: [],
           });
           handleShow();
         }

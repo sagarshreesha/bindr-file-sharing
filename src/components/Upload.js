@@ -17,6 +17,7 @@ import {
   Fade,
 } from "react-bootstrap";
 import "../util.css";
+import firebase from "firebase";
 
 const Upload = () => {
   const [tagname, setTagName] = useState(null);
@@ -39,6 +40,7 @@ const Upload = () => {
   const [notis, setNotis] = useState([]);
   const [reqTags, setReqTags] = useState([]);
   const [shows1, setShows1] = useState(false);
+  const [names, setNames] = useState([]);
 
   React.useEffect(() => {
     const uid = app.auth().currentUser.uid;
@@ -67,21 +69,9 @@ const Upload = () => {
   };
 
   const finaliseStuff = () => {
-    if (filenames.length === 0) {
-      console.log("000");
-      setShows1(true);
-    } else {
-      const db = app.firestore();
-      db.collection("tags")
-        .where("name", "==", tagname)
-        .get()
-        .then(function (querySnapshot) {
-          querySnapshot.forEach(function (doc) {
-            db.collection("tags").doc(doc.id).update({});
-          });
-        });
-      handleShow();
+    if (filenames) {
     }
+    handleShow();
   };
 
   const checkBase = () => {
@@ -102,16 +92,14 @@ const Upload = () => {
             .collection("tags")
             .where("name", "==", tagname)
             .get()
-            .then(function (querySnapshotx) {
+            .then(function (querySnapshot) {
               querySnapshot.forEach(function (doc) {
-                console.log(doc.data());
                 if (doc.data().access === "2") {
-                  if (uid === doc.data().owner) {
+                  if (doc.data().users.includes(uid)) {
                     setMones("block");
                     setNones("none");
                     setNonesx("none");
                     setShow("block");
-                    owner.concat("(You)");
                     getOwner();
                   } else {
                     const db = app.firestore();
@@ -120,6 +108,7 @@ const Upload = () => {
                       .get()
                       .then(function (querySnapshot) {
                         querySnapshot.forEach(function (doc) {
+                          setNames(doc.data().reqNames);
                           setNotis(doc.data().requests);
                           setReqTags(doc.data().reqTags);
                         });
@@ -202,6 +191,8 @@ const Upload = () => {
   };
 
   const requestAccess = () => {
+    if (reqTags || notis || names) {
+    }
     const db = app.firestore();
     db.collection("tags")
       .where("name", "==", tagname)
@@ -217,12 +208,17 @@ const Upload = () => {
               .get()
               .then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
-                  notis.push(uid);
-                  reqTags.push(tagname);
-                  db.collection("tags").doc(doc.id).update({
-                    requests: notis,
-                    reqTags: reqTags,
-                  });
+                  db.collection("tags")
+                    .doc(doc.id)
+                    .update({
+                      requests: firebase.firestore.FieldValue.arrayUnion(uid),
+                      reqTags: firebase.firestore.FieldValue.arrayUnion(
+                        tagname
+                      ),
+                      reqNames: firebase.firestore.FieldValue.arrayUnion(
+                        user + " is requesting access for " + tagname
+                      ),
+                    });
                 });
               });
             setReqModalSuccess(true);
