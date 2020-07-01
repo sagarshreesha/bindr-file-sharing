@@ -3,7 +3,7 @@ import app from "../base";
 import { Navbar, Nav, Dropdown, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import prof from "../svg/prof.png";
-import noti from "../svg/noti.svg";
+import noti from "../svg/noti.png";
 import firebase from "firebase";
 
 const Header = () => {
@@ -182,7 +182,7 @@ const Header = () => {
                 <img
                   alt="notification"
                   src={noti}
-                  style={{ marginBottom: "0px" }}
+                  style={{ marginBottom: "0px", width: "24px" }}
                 ></img>
                 <svg
                   height="15"
