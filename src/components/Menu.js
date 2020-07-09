@@ -42,9 +42,9 @@ const Menu = () => {
               <Link to="./create">
                 <Button
                   id="cusbtn"
-                  className="font-weight-bold"
+                  className="font-weight-bold shadow"
                   variant="primary"
-                  style={{ color: "#292e29" }}
+                  style={{ color: "#212121", borderRadius: "999px" }}
                 >
                   Create Tags
                 </Button>
@@ -82,9 +82,9 @@ const Menu = () => {
               <Link to="./upload">
                 <Button
                   id="cusbtn"
-                  className="font-weight-bold"
+                  className="font-weight-bold shadow"
                   variant="primary"
-                  style={{ color: "#292e29" }}
+                  style={{ color: "#212121", borderRadius: "999px" }}
                 >
                   Upload Files
                 </Button>
@@ -121,9 +121,9 @@ const Menu = () => {
               <Link to="./manage">
                 <Button
                   id="cusbtn"
-                  className="font-weight-bold"
+                  className="font-weight-bold shadow"
                   variant="primary"
-                  style={{ color: "#292e29" }}
+                  style={{ color: "#212121", borderRadius: "999px" }}
                 >
                   Manage Tags
                 </Button>

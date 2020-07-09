@@ -120,7 +120,7 @@ const Header = () => {
   return (
     <div>
       <Navbar
-        style={{ backgroundColor: "#54D249", color: "#121212" }}
+        style={{ backgroundColor: "rgb(84, 210, 73)", color: "#121212" }}
         expand="lg"
         variant="dark"
         className="font-weight-bold mb-5"
@@ -225,12 +225,14 @@ const Header = () => {
                         <Dropdown.Item
                           style={{
                             textAlign: "left",
-                            padding: "0.5rem 1rem 1rem 1rem",
+                            padding: "0.5rem 1rem 0.5rem 1rem",
                             marginBottom: "5px",
                           }}
                           id="dditem"
                         >
-                          {reqNames[index]}
+                          <center>
+                            <span>{reqNames[index]}</span>
+                          </center>
 
                           <center>
                             <div className="mt-3">
@@ -239,7 +241,7 @@ const Header = () => {
                                 className="mr-5"
                                 style={{
                                   borderRadius: "999px",
-                                  padding: "0.5rem 0.75rem 0.5rem 0.75rem",
+                                  padding: "0.25rem 0.6rem 0.25rem 0.6rem",
                                   backgroundColor: "#abe4a5",
                                   border: "none",
                                   color: "#106e06",
@@ -254,8 +256,8 @@ const Header = () => {
                               <Button
                                 style={{
                                   borderRadius: "999px",
-                                  padding: "0.5rem 0.75rem 0.5rem 0.75rem",
-                                  backgroundColor: "#dd9d9d",
+                                  padding: "0.25rem 0.6rem 0.25rem 0.6rem",
+                                  backgroundColor: "#e8cfc8",
                                   border: "none",
                                   color: "#7a1313",
                                   fontWeight: "bold",

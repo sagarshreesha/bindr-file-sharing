@@ -35,5 +35,26 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-performance.js"></script>
+    <script>
+      // TODO: Replace the following with your app's Firebase project configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyCkK9J9MXPdcTAfo0s87SllRADglZ16nP8",
+        authDomain: "files-d9315.firebaseapp.com",
+        databaseURL: "https://files-d9315.firebaseio.com",
+        projectId: "files-d9315",
+        storageBucket: "files-d9315.appspot.com",
+        messagingSenderId: "298771617646",
+        appId: "1:298771617646:web:60140a9a5af685df35937f",
+        measurementId: "G-HQT69B1VN7",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Initialize Performance Monitoring and get a reference to the service
+      var perf = firebase.performance();
+    </script>
   </body>
 </html>
