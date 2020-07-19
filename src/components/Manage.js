@@ -581,6 +581,7 @@ const Manage = () => {
               gridTemplateColumns: "repeat(auto-fit, minmax(10rem, 1fr))",
               gridGap: "1rem",
             }}
+            className="cardDeck"
           >
             <div
               className="item"
@@ -601,7 +602,7 @@ const Manage = () => {
             {files.map(function (name, index) {
               return (
                 <Card
-                  className="shadow"
+                  className="shadow Card"
                   style={{ backgroundColor: "#282828" }}
                   onClick={() => window.open(`${downloadURLs[index]}`)}
                   key={index}

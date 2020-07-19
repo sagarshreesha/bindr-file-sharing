@@ -210,15 +210,15 @@ ul {
   outline: none !important;
 }
 
-.card-deck {
+.cardDeck {
   padding: 0 1rem 0 1rem;
 }
-.card {
+.Card {
   cursor: pointer;
 }
 
 @media (min-width: 576px) {
-  .card-deck .card {
+  .cardDeck .Card {
     flex: 1 0;
     margin-right: 0px !important;
     margin-bottom: 0;
@@ -239,7 +239,7 @@ ul {
   #notidd {
     min-width: 10rem;
   }
-  .card-deck {
+  .cardDeck {
     padding: 0;
   }
 }
