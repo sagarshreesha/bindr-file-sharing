@@ -15,7 +15,7 @@ import {
   Fade,
 } from "react-bootstrap";
 import "../util.css";
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 const Manage = () => {
   const [tagname, setTagName] = useState(null);
@@ -40,6 +40,8 @@ const Manage = () => {
   const [reqTags, setReqTags] = useState([]);
   const [names, setNames] = useState([]);
   const [user, setUser] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [loadingFiles, setLoadingFiles] = useState(true);
 
   const [shows1, setShows1] = useState(false);
 
@@ -62,6 +64,7 @@ const Manage = () => {
         querySnapshot.forEach(function (doc) {
           setMyTags((mytags) => [...mytags, doc.data().name]);
         });
+        setLoading(false);
       });
   }, []);
 
@@ -256,6 +259,7 @@ const Manage = () => {
                 });
             });
         });
+        setLoadingFiles(false);
       })
       .catch(function (error) {
         // Handle any errors
@@ -370,6 +374,7 @@ const Manage = () => {
               });
           });
         }
+        setLoadingFiles(false);
       })
       .catch(function (error) {
         // Handle any errors
@@ -392,7 +397,22 @@ const Manage = () => {
             >
               My Tags
             </p>
-
+            <li
+              className="item"
+              style={{ display: loading ? "block" : "none" }}
+            >
+              <div style={{ width: "100%" }}>
+                <Spinner
+                  animation="border"
+                  variant="success"
+                  style={{
+                    height: "30px",
+                    width: "30px",
+                    marginTop: "10px",
+                  }}
+                />
+              </div>
+            </li>
             {mytags.map(function (name, index) {
               return (
                 <li key={index} className="item">
@@ -558,15 +578,30 @@ const Manage = () => {
           <CardDeck
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(13rem, 1fr))",
-              gridGap: "1.5rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(10rem, 1fr))",
+              gridGap: "1rem",
             }}
           >
+            <div
+              className="item"
+              style={{ display: loadingFiles ? "block" : "none" }}
+            >
+              <div style={{ width: "100%" }}>
+                <Spinner
+                  animation="border"
+                  variant="success"
+                  style={{
+                    height: "30px",
+                    width: "30px",
+                    marginTop: "10px",
+                  }}
+                />
+              </div>
+            </div>
             {files.map(function (name, index) {
               return (
                 <Card
                   className="shadow"
-                  id="mcard"
                   style={{ backgroundColor: "#282828" }}
                   onClick={() => window.open(`${downloadURLs[index]}`)}
                   key={index}

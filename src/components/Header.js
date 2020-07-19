@@ -4,9 +4,11 @@ import { Navbar, Nav, Dropdown, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import prof from "../svg/prof.png";
 import noti from "../svg/noti.png";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import { useHistory } from "react-router-dom";
 
 const Header = () => {
+  const history = useHistory();
   const [activeC, setActiveC] = React.useState("activeFalse");
   const [activeU, setActiveU] = React.useState("activeFalse");
   const [activeM, setActiveM] = React.useState("activeFalse");
@@ -169,6 +171,7 @@ const Header = () => {
               id="headP"
               onClick={() => {
                 app.auth().signOut();
+                history.push("/");
               }}
             >
               Sign Out
@@ -177,6 +180,7 @@ const Header = () => {
           <Nav>
             <Dropdown drop="left">
               <Dropdown.Toggle
+                className="mx-auto"
                 style={{ backgroundColor: "rgb(84, 210, 73)", border: "none" }}
               >
                 <img
@@ -281,7 +285,7 @@ const Header = () => {
           </Nav>
 
           <Nav>
-            <p id="headP" style={{ float: "right" }}>
+            <p id="headP" style={{ float: "right", textAlign: "left" }}>
               {user}{" "}
               <span style={{ paddingLeft: "3px" }}>
                 <img

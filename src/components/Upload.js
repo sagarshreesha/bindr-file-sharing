@@ -17,7 +17,7 @@ import {
   Fade,
 } from "react-bootstrap";
 import "../util.css";
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 const Upload = () => {
   const [tagname, setTagName] = useState(null);
@@ -54,7 +54,18 @@ const Upload = () => {
           setUID(doc.data().uid);
         });
       });
+    db.collection("tags")
+      .where("owner", "==", uid)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          setMyTags((mytags) => [...mytags, doc.data().name]);
+        });
+        setLoading(false);
+      });
   }, []);
+  const [mytags, setMyTags] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleClose = () => {
     setShows(false);
@@ -72,6 +83,88 @@ const Upload = () => {
     if (filenames) {
     }
     handleShow();
+  };
+
+  const myClick = (name) => {
+    setTagName(name);
+    setNones("none");
+    setMones("none");
+    setShow("none");
+    setPending("block");
+    app
+      .firestore()
+      .collection("tags")
+      .where("name", "==", name)
+      .get()
+      .then(function (querySnapshot) {
+        setPending("none");
+        if (!querySnapshot.empty) {
+          app
+            .firestore()
+            .collection("tags")
+            .where("name", "==", name)
+            .get()
+            .then(function (querySnapshot) {
+              querySnapshot.forEach(function (doc) {
+                if (doc.data().access === "2") {
+                  if (doc.data().users.includes(uid)) {
+                    setMones("block");
+                    setNones("none");
+                    setNonesx("none");
+                    setShow("block");
+                    getOwner();
+                  } else {
+                    const db = app.firestore();
+                    db.collection("tags")
+                      .where("name", "==", name)
+                      .get()
+                      .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                          setNames(doc.data().reqNames);
+                          setNotis(doc.data().requests);
+                          setReqTags(doc.data().reqTags);
+                        });
+                      });
+                    setNonesx("block");
+                    setMones("none");
+                    setShow("none");
+                  }
+                }
+              });
+            });
+          setMones("block");
+          setNones("none");
+          setNonesx("none");
+          setShow("block");
+        } else {
+          setNones("block");
+          setNonesx("none");
+          setMones("none");
+          setShow("none");
+        }
+      })
+      .catch(function (error) {
+        console.log("Error getting documents: ", error);
+      });
+    const db = app.firestore();
+    db.collection("tags")
+      .where("name", "==", name)
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          setDescription(doc.data().desc);
+          db.collection("users")
+            .where("uid", "==", doc.data().owner)
+            .get()
+            .then(function (querySnapshot) {
+              querySnapshot.forEach(function (doc) {
+                if (uid === doc.data().uid) {
+                  setOwner(doc.data().name + " ( You )");
+                } else setOwner(doc.data().name);
+              });
+            });
+        });
+      });
   };
 
   const checkBase = () => {
@@ -229,7 +322,61 @@ const Upload = () => {
 
   return (
     <div>
-      <div className="w-50 mx-auto" id="mobile">
+      <div className="my-tags w-100" style={{ marginTop: "-20px" }}>
+        <ul className="hs full no-scrollbar font-weight-bold">
+          <p
+            className="recent mb-2"
+            style={{
+              fontWeight: "bold",
+              fontSize: "18px",
+              color: "#929493",
+              textAlign: "left",
+            }}
+          >
+            My Tags
+          </p>
+          <li className="item" style={{ display: loading ? "block" : "none" }}>
+            <div style={{ width: "100%" }}>
+              <Spinner
+                animation="border"
+                variant="success"
+                style={{
+                  height: "30px",
+                  width: "30px",
+                  marginTop: "10px",
+                }}
+              />
+            </div>
+          </li>
+          {mytags.map(function (name, index) {
+            return (
+              <li key={index} className="item">
+                <Button
+                  onClick={() => myClick(name)}
+                  style={{
+                    backgroundColor: "#363636",
+                    outline: "none",
+                    border: " 2px solid #363636",
+                    fontWeight: "bold",
+                    width: "100%",
+                    borderRadius: "999px",
+                    height: "40px",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    color: "#e2e2e2",
+                    fontSize: "15px",
+                  }}
+                  className="tagbtn"
+                >
+                  {name}
+                </Button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className="w-50 mx-auto mt-4" id="mobile">
         <FormLabel
           style={{ color: "#929493", fontWeight: "bold", fontSize: "18px" }}
         >
@@ -245,8 +392,8 @@ const Upload = () => {
               outline: "none",
               fontWeight: "bold",
             }}
-            placeholder="Tag Name"
-            aria-label="Tag Name"
+            placeholder="Search Tag Name"
+            aria-label="Search Tag Name"
             aria-describedby="basic-addon2"
             onChange={(e) => handleChange(e)}
             onKeyPress={eCheckBase}

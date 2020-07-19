@@ -90,7 +90,7 @@ const Create = () => {
               },
               pattern: {
                 value: /^[\S]+$/,
-                message: "Spaces Not Allowed !",
+                message: "Spaces Not Allowed",
               },
             })}
           />

@@ -98,6 +98,8 @@ input {
   color: #cbffc6 !important;
   background-color: #2c7525;
   border-radius: 999px;
+  width: fit-content;
+  padding: 0 5px 0 5px;
 }
 
 .hs {
@@ -208,6 +210,22 @@ ul {
   outline: none !important;
 }
 
+.card-deck {
+  padding: 0 1rem 0 1rem;
+}
+.card {
+  cursor: pointer;
+}
+
+@media (min-width: 576px) {
+  .card-deck .card {
+    flex: 1 0;
+    margin-right: 0px !important;
+    margin-bottom: 0;
+    margin-left: 0px !important;
+  }
+}
+
 @media (max-width: 600px) {
   #formid {
     width: 100% !important;
@@ -220,6 +238,9 @@ ul {
   }
   #notidd {
     min-width: 10rem;
+  }
+  .card-deck {
+    padding: 0;
   }
 }
 
