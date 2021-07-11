@@ -6,6 +6,7 @@
     "bootstrap": "^4.5.0",
     "firebase": "^7.15.2",
     "react": "^16.8.6",
+    "react-animations": "^1.0.0",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.8.6",
     "react-file-icon": "^0.2.0",
@@ -13,7 +14,8 @@
     "react-hook-form": "^5.7.2",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "styled-components": "^5.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
